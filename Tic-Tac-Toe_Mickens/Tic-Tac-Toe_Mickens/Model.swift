@@ -8,6 +8,12 @@
 
 import Foundation
 
+enum Piece {
+    case empty
+    case X  // computer
+    case O // human
+}
+
 enum Player{
     case Human
     case Computer

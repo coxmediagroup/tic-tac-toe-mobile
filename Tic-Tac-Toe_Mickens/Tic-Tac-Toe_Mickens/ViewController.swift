@@ -14,12 +14,15 @@ class BoardCell:UICollectionViewCell{
 
 class ViewController: UIViewController, CustomCollectionVC {
     
+    let N = 3
     @IBOutlet weak var collectionView:UICollectionView!
     var humanMove = false
     var computerMove = false
+    var board:Array<[Piece]>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        board = Array(repeating: Array(repeating: Piece.empty, count:N), count: N)
         configCollectionView(delegate: self)
         configureCollectionViewItemSize(collectionView: collectionView, layout: collectionView.collectionViewLayout as! UICollectionViewFlowLayout)
     }
@@ -51,7 +54,20 @@ class ViewController: UIViewController, CustomCollectionVC {
     }
     
     func makeMove(){
-        
+        // Transverse entire board for empty cells and return cell with the best chance of AI winning.
+        for i in 0..<N{
+            for j in 0..<N{
+                
+                if board[i][j] == .empty{
+                    
+                    // computer move
+                    board[i][j] = .X
+                    
+                    // Determine if this is the best move
+                    
+                }
+            }
+        }
     }
     
     func notifyTurnToMove(){
