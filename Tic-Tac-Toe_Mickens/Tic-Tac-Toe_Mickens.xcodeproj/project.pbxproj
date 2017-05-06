@@ -14,6 +14,8 @@
 		A73888291EBE81BF0011C01C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A73888271EBE81BF0011C01C /* LaunchScreen.storyboard */; };
 		A73888341EBE81BF0011C01C /* Tic_Tac_Toe_MickensTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73888331EBE81BF0011C01C /* Tic_Tac_Toe_MickensTests.swift */; };
 		A738883F1EBE81BF0011C01C /* Tic_Tac_Toe_MickensUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A738883E1EBE81BF0011C01C /* Tic_Tac_Toe_MickensUITests.swift */; };
+		A75D8E191EBE84BA00902DFE /* UIViewControllerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75D8E181EBE84BA00902DFE /* UIViewControllerProtocols.swift */; };
+		A75D8E1C1EBE861000902DFE /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75D8E1B1EBE861000902DFE /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		A738883A1EBE81BF0011C01C /* Tic-Tac-Toe_MickensUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tic-Tac-Toe_MickensUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A738883E1EBE81BF0011C01C /* Tic_Tac_Toe_MickensUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tic_Tac_Toe_MickensUITests.swift; sourceTree = "<group>"; };
 		A73888401EBE81BF0011C01C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A75D8E181EBE84BA00902DFE /* UIViewControllerProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerProtocols.swift; sourceTree = "<group>"; };
+		A75D8E1B1EBE861000902DFE /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				A738881E1EBE81BF0011C01C /* AppDelegate.swift */,
+				A75D8E1D1EBE861500902DFE /* Utilities */,
+				A75D8E1A1EBE84C300902DFE /* Protocols */,
 				A73888201EBE81BF0011C01C /* ViewController.swift */,
 				A73888221EBE81BF0011C01C /* Main.storyboard */,
 				A73888251EBE81BF0011C01C /* Assets.xcassets */,
@@ -123,6 +129,22 @@
 				A73888401EBE81BF0011C01C /* Info.plist */,
 			);
 			path = "Tic-Tac-Toe_MickensUITests";
+			sourceTree = "<group>";
+		};
+		A75D8E1A1EBE84C300902DFE /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				A75D8E181EBE84BA00902DFE /* UIViewControllerProtocols.swift */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
+		A75D8E1D1EBE861500902DFE /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A75D8E1B1EBE861000902DFE /* Utils.swift */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,6 +285,8 @@
 			files = (
 				A73888211EBE81BF0011C01C /* ViewController.swift in Sources */,
 				A738881F1EBE81BF0011C01C /* AppDelegate.swift in Sources */,
+				A75D8E191EBE84BA00902DFE /* UIViewControllerProtocols.swift in Sources */,
+				A75D8E1C1EBE861000902DFE /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,6 +539,7 @@
 				A73888451EBE81BF0011C01C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A73888461EBE81BF0011C01C /* Build configuration list for PBXNativeTarget "Tic-Tac-Toe_MickensTests" */ = {
 			isa = XCConfigurationList;
@@ -523,6 +548,7 @@
 				A73888481EBE81BF0011C01C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A73888491EBE81BF0011C01C /* Build configuration list for PBXNativeTarget "Tic-Tac-Toe_MickensUITests" */ = {
 			isa = XCConfigurationList;
@@ -531,6 +557,7 @@
 				A738884B1EBE81BF0011C01C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
