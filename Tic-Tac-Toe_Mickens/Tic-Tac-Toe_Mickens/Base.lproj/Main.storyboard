@@ -99,6 +99,8 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="HM5-Yr-tgI" id="LaY-ZK-cpa"/>
+                        <outlet property="computerBtn" destination="O8n-QD-8U4" id="rUu-4a-OS2"/>
+                        <outlet property="humanBtn" destination="TIY-uE-xgo" id="vGT-og-iTc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

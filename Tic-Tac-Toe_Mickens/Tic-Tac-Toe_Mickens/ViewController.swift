@@ -14,11 +14,18 @@ class BoardCell:UICollectionViewCell{
 
 class ViewController: UIViewController, CustomCollectionVC {
     
+    // const
     let N = 3
+    
+    // private
+    fileprivate var humanMove = false
+    fileprivate var computerMove = false
+    fileprivate var board:Array<[Piece]>!
+    
+    // public 
+    @IBOutlet weak var computerBtn: UIButton!
+    @IBOutlet weak var humanBtn: UIButton!
     @IBOutlet weak var collectionView:UICollectionView!
-    var humanMove = false
-    var computerMove = false
-    var board:Array<[Piece]>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,10 +71,51 @@ class ViewController: UIViewController, CustomCollectionVC {
                     board[i][j] = .X
                     
                     // Determine if this is the best move
+                    let value = minimax(board: &board, max: true, depth:0)
                     
+                    // reset move
+                    board[i][j] = .empty
+                    
+         
                 }
             }
         }
+    }
+    
+    func minimax(board:inout Array<[Piece]>!, max:Bool, depth:Int)->Int{
+        let score = hasWon(board: board)
+        return 0
+    }
+    
+    func hasWon(board:Array<[Piece]>)->Int{
+        for i in 0..<board.count{
+            /* Check Rows */
+            if getWinner(p1: board[i][0], p2: board[i][1], p3: board[i][2]) {
+                return board[i][0] == .X ? +10 : -10
+            }
+            
+            /* Check Columns */
+            if getWinner(p1: board[0][i], p2: board[1][i], p3: board[2][i]) {
+                return board[0][i] == .X ? +10 : -10
+            }
+            
+            /* Check Diagonal*/
+            if getWinner(p1: board[0][0], p2: board[1][1], p3: board[2][2]) {
+                return board[0][0] == .X ? +10 : -10
+            }
+            
+            if getWinner(p1: board[0][2], p2: board[1][1], p3: board[2][0]) {
+                return board[0][2] == .X ? +10 : -10
+            }
+        }
+        return 0
+    }
+    
+    func getWinner(p1:Piece, p2:Piece, p3:Piece)->Bool{
+        if p1 == Piece.empty{
+            return false
+        }
+        return p1 == p2 && p2 == p3
     }
     
     func notifyTurnToMove(){
