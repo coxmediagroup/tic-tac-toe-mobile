@@ -50,6 +50,7 @@ class ViewController: UIViewController, CustomCollectionVC {
         board = Array(repeating: Piece.empty, count:N)
         showWelcomeControls(flip: true)
         showSelectionControls(flip: true)
+        configNavigationController(vc: self, navBarTitle: "Tic-Tac-Toe")
         configCollectionView(delegate: self)
         configureCollectionViewItemSize(collectionView: collectionView, layout: collectionView.collectionViewLayout as! UICollectionViewFlowLayout)
     }
