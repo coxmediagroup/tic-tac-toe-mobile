@@ -84,7 +84,66 @@ class ViewController: UIViewController, CustomCollectionVC {
     
     func minimax(board:inout Array<[Piece]>!, max:Bool, depth:Int)->Int{
         let score = hasWon(board: board)
-        return 0
+        
+        // We have a winner
+        if score == 10 || score == -10 { return score }
+        
+        // We have a draw
+        if !areMovesLeft(board: board) { return 0 }
+        
+        // Computer's move
+        if max{
+            var best = 1000
+            for i in 0..<N{
+                for j in 0..<N{
+                    if board[i][j] == .empty{
+                        
+                        // computer move
+                        board[i][j] = .X
+                        
+                        // Recursive call to minimax
+                        best = minimax(board: &board, max: true, depth: depth + 1)
+                        
+                        // undo move
+                        board[i][j] = .empty
+                    }
+                }
+            }
+            
+            return best
+            
+        } else{
+            var best = -1000
+            for i in 0..<N{
+                for j in 0..<N{
+                    if board[i][j] == .empty{
+                        
+                        // human move
+                        board[i][j] = .O
+                        
+                        // Recursive call to minimax
+                        best = minimax(board: &board, max: false, depth: depth + 1)
+                        
+                        // undo move
+                        board[i][j] = .empty
+                    }
+                }
+            }
+            
+            return best
+        }
+
+    }
+    
+    func areMovesLeft(board:Array<[Piece]>)->Bool{
+        for i in 0..<N{
+            for j in 0..<N{
+                if board[i][j] == .empty{
+                    return true
+                }
+            }
+        }
+        return false
     }
     
     func hasWon(board:Array<[Piece]>)->Int{
