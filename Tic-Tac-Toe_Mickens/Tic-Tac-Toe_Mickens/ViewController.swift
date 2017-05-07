@@ -9,7 +9,19 @@
 import UIKit
 
 class BoardCell:UICollectionViewCell{
-    
+    @IBOutlet weak var pieceImageView: UIImageView!
+    var piece:Piece?{
+        didSet{
+            guard let piece = piece else { return }
+            if piece == .X{
+                pieceImageView.image = UIImage(named: "x-mark")
+            } else if piece == .O {
+                pieceImageView.image = UIImage(named: "circle-mark")
+            } else{
+                self.backgroundColor = UIColor.gray
+            }
+        }
+    }
 }
 
 class ViewController: UIViewController, CustomCollectionVC {
@@ -47,20 +59,51 @@ class ViewController: UIViewController, CustomCollectionVC {
         if playerMove == .Computer{
             computerMove = true
             humanMove = false
-            makeMove()
+            let bestMove = makeMove()
+            addMoveToBoard(move:bestMove)
+            notifyHumanToMove()
         } else{
-            computerMove = false
-            humanMove = true
-            notifyTurnToMove()
+            notifyHumanToMove()
         }
     }
     
+    func addMoveToBoard(move:Move){
+        for i in 0..<N{
+            for j in 0..<N{
+                if board[i][j] == .empty{
+                    if i == move.row && j == move.col{
+                        board[i][j] = .X
+                    }
+                }
+            }
+        }
+        collectionView.reloadData()
+    }
+    
+    func notifyHumanToMove(){
+        computerMove = false
+        humanMove = true
+        humanBtn.titleLabel?.text = "Its Your Move"
+    }
+    
+    func notifyComputerToMove(){
+        computerMove = true
+        humanMove = false
+        computerBtn.titleLabel?.text = "Its My Move"
+        let bestMove = makeMove()
+        addMoveToBoard(move:bestMove)
+        notifyHumanToMove()
+    }
     
     func resetGame(){
         
     }
     
-    func makeMove(){
+    func makeMove()->Move{
+        
+        var bestValue = -1000
+        var bestMove = Move(row: -1, col: -1)
+        
         // Transverse entire board for empty cells and return cell with the best chance of AI winning.
         for i in 0..<N{
             for j in 0..<N{
@@ -76,10 +119,18 @@ class ViewController: UIViewController, CustomCollectionVC {
                     // reset move
                     board[i][j] = .empty
                     
-         
+                    // Update best move
+                    if value > bestValue{
+                        bestMove.row = i
+                        bestMove.col = j
+                        bestValue = value
+                    }
                 }
             }
         }
+        
+        print("Best move value is \(bestValue)")
+        return bestMove
     }
     
     func minimax(board:inout Array<[Piece]>!, max:Bool, depth:Int)->Int{
@@ -193,7 +244,10 @@ extension ViewController: UICollectionViewDataSource{
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: BoardCell.self), for: indexPath)
         guard let boardCell = cell as? BoardCell else { return cell }
-        boardCell.backgroundColor = UIColor.red
+        let flattened = Array(board.joined())
+        let piece = flattened[indexPath.row]
+        boardCell.piece = piece
+        boardCell.backgroundColor = UIColor.gray
         return boardCell
     }
 }
@@ -201,10 +255,25 @@ extension ViewController: UICollectionViewDataSource{
 
 extension ViewController: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard (collectionView.cellForItem(at: indexPath) as? BoardCell) != nil else { return }
+        if humanMove && !computerMove{
+            insertIntoBoard(row: indexPath.row)
+            notifyComputerToMove()
+        }
         
-        guard let boardCell = collectionView.cellForItem(at: indexPath) as? BoardCell else { return }
-        boardCell.backgroundColor = UIColor.green
-        
+    }
+    
+    func insertIntoBoard(row:Int){
+        var count = -1
+        for i in 0..<N{
+            for j in 0..<N{
+                count += 1
+                if count == row {
+                    board[i][j] = .O
+                }
+            }
+        }
+        collectionView.reloadData()
     }
 }
 

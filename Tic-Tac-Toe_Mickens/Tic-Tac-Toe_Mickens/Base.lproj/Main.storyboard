@@ -40,7 +40,21 @@
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8fK-hu-411">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                </imageView>
+                                            </subviews>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="8fK-hu-411" firstAttribute="leading" secondItem="yVV-MU-7uY" secondAttribute="leading" id="Wcc-K2-lgY"/>
+                                            <constraint firstAttribute="trailing" secondItem="8fK-hu-411" secondAttribute="trailing" id="XYI-YP-Zpf"/>
+                                            <constraint firstItem="8fK-hu-411" firstAttribute="top" secondItem="yVV-MU-7uY" secondAttribute="top" id="dbF-xp-P3Z"/>
+                                            <constraint firstAttribute="bottom" secondItem="8fK-hu-411" secondAttribute="bottom" id="sfr-JL-izg"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="pieceImageView" destination="8fK-hu-411" id="4UZ-TT-mey"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>

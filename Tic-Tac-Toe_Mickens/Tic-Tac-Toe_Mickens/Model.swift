@@ -8,6 +8,11 @@
 
 import Foundation
 
+struct Move{
+    var row:Int
+    var col:Int
+}
+
 enum Piece {
     case empty
     case X  // computer
