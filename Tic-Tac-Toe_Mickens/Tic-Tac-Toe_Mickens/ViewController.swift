@@ -18,6 +18,7 @@ class BoardCell:UICollectionViewCell{
             } else if piece == .O {
                 pieceImageView.image = UIImage(named: "circle-mark")
             } else{
+                pieceImageView.image = nil
                 self.backgroundColor = UIColor.gray
             }
         }
@@ -94,7 +95,7 @@ class ViewController: UIViewController, CustomCollectionVC {
     }
     
     func resetGame(){
-        for i in 0..<N{
+        for i in 0..<board.count{
             board[i] = .empty
         }
         
@@ -103,21 +104,30 @@ class ViewController: UIViewController, CustomCollectionVC {
     
     func makeMove()->Move{
         
+        var newBoard = Array(repeating: Piece.empty, count:N)
+        
+        // Copy values from the original board
+        var i = 0
+        while i < board.count{
+            newBoard[i] = board[i]
+            i += 1
+        }
+        
         var bestValue = -1000
         var bestMove = Move(cell: -1)
         
         // Transverse entire board for empty cells and return cell with the best chance of AI winning.
         for i in 0..<board.count{
-            if board[i] == .empty{
+            if newBoard[i] == .empty{
                 
                 // computer move
-                board[i] = .X
+                newBoard[i] = .X
                 
                 // Determine if this is the best move
-                let value = minimax(board: &board, max: true, depth:0)
+                let value = minimax(board: &newBoard, isMax: false, depth:0)
                 
                 // reset move
-                board[i] = .empty
+                newBoard[i] = .empty
                 
                 // Update best move
                 if value > bestValue{
@@ -131,26 +141,33 @@ class ViewController: UIViewController, CustomCollectionVC {
         return bestMove
     }
     
-    func minimax(board:inout Array<Piece>!, max:Bool, depth:Int)->Int{
+    func minimax(board:inout Array<Piece>, isMax:Bool, depth:Int)->Int{
         let score = hasWon(board: board)
         
-        // We have a winner
-        if score == 10 || score == -10 { return score }
+        // AI wins
+        if score == 10{
+            return score - depth
+        }
+        
+        // Humans wins
+        if score == -10{
+            return score + depth
+        }
         
         // We have a draw
         if !areMovesLeft(board: board) { return 0 }
         
         // Computer's move
-        if max{
-            var best = 1000
-            for i in 0..<N{
+        if isMax{
+            var best = -1000
+            for i in 0..<board.count{
                 if board[i] == .empty{
                     
                     // computer move
                     board[i] = .X
                     
                     // Recursive call to minimax
-                    best = minimax(board: &board, max: true, depth: depth + 1)
+                    best = max(best, minimax(board: &board, isMax: !isMax, depth: depth + 1))
                     
                     // undo move
                     board[i] = .empty
@@ -160,19 +177,18 @@ class ViewController: UIViewController, CustomCollectionVC {
             return best
             
         } else{
-            var best = -1000
-            for i in 0..<N{
+            var best = 1000
+            for i in 0..<board.count{
                 if board[i] == .empty{
                     
                     // human move
                     board[i] = .O
                     
                     // Recursive call to minimax
-                    best = minimax(board: &board, max: false, depth: depth + 1)
+                    best = min(best, minimax(board: &board, isMax: !isMax, depth: depth + 1))
                     
                     // undo move
-                    board[i] = .empty
-                }
+                    board[i] = .empty                }
             }
             
             return best
@@ -225,9 +241,6 @@ class ViewController: UIViewController, CustomCollectionVC {
         return p1 == p2 && p2 == p3
     }
     
-    func notifyTurnToMove(){
-        
-    }
 }
 
 extension ViewController: UICollectionViewDataSource{
