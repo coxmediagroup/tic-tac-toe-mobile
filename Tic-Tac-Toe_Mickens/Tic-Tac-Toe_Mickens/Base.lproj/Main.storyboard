@@ -71,6 +71,9 @@
                                         <state key="normal" title="X">
                                             <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="xPieceSelected:" destination="BYZ-38-t0r" eventType="touchUpInside" id="taq-11-wec"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TIY-uE-xgo">
                                         <rect key="frame" x="277" y="145" width="74" height="30"/>
@@ -78,6 +81,9 @@
                                         <state key="normal" title="O">
                                             <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="oPieceSelected:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PLI-AM-8hM"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Tic-Tac-Toe from Hell!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8sU-4R-jWg">
                                         <rect key="frame" x="8" y="32" width="359" height="21"/>

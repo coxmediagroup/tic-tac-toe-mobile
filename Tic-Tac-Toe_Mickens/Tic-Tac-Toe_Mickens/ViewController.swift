@@ -34,6 +34,8 @@ class ViewController: UIViewController, CustomCollectionVC {
     fileprivate var humanMove = false
     fileprivate var computerMove = false
     fileprivate var board:Array<Piece>!
+    fileprivate var humanPiece:Piece!
+    fileprivate var computerPiece:Piece!
     
     // public 
     @IBOutlet weak var welcomeLbl: UILabel!
@@ -46,22 +48,32 @@ class ViewController: UIViewController, CustomCollectionVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         board = Array(repeating: Piece.empty, count:N)
-        showAndHideControls(flip: true)
+        showWelcomeControls(flip: true)
+        showSelectionControls(flip: true)
         configCollectionView(delegate: self)
         configureCollectionViewItemSize(collectionView: collectionView, layout: collectionView.collectionViewLayout as! UICollectionViewFlowLayout)
     }
     
-    func showAndHideControls(flip:Bool){
+    func showWelcomeControls(flip:Bool){
+        welcomeLbl.isEnabled = flip
+        welcomeLbl.isHidden = !flip
+        startGameBtn.isEnabled = flip
+        startGameBtn.isHidden = !flip
+    }
+    
+    func showSelectionControls(flip:Bool){
         xButton.isEnabled = !flip
         xButton.isHidden = flip
         oButton.isEnabled = !flip
         oButton.isHidden = flip
         chooseLbl.isEnabled = !flip
         chooseLbl.isHidden = flip
+    }
+    
+    func showMessage(message:String, flip:Bool){
         welcomeLbl.isEnabled = flip
         welcomeLbl.isHidden = !flip
-        startGameBtn.isEnabled = flip
-        startGameBtn.isHidden = !flip
+        welcomeLbl.text = message
     }
     
     @IBAction func startGameBtnPressed(_ sender: Any) {
@@ -69,19 +81,33 @@ class ViewController: UIViewController, CustomCollectionVC {
     }
     
     func showPlayerOptions(){
-        showAndHideControls(flip: false)
+        showWelcomeControls(flip: false)
+        showSelectionControls(flip: false)
     }
     
-    func startNewGame(playerMove:Player){
-        resetGame()
-        if playerMove == .Computer{
-            computerMove = true
-            humanMove = false
-            let bestMove = makeMove()
-            addMoveToBoard(move:bestMove)
-            notifyHumanToMove()
-        } else{
-            notifyHumanToMove()
+    @IBAction func xPieceSelected(_ sender: Any) {
+        humanPiece = .X
+        computerPiece = .O
+        showSelectionControls(flip: true)
+        showMessage(message: "You chose X, you go first.", flip: true)
+        let when = DispatchTime.now() + 1
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            // Your code with delay
+            self.notifyHumanToMove()
+            self.showMessage(message: "", flip: false)
+        }
+    }
+    
+    @IBAction func oPieceSelected(_ sender: Any) {
+        humanPiece = .O
+        computerPiece = .X
+        showSelectionControls(flip: true)
+        showMessage(message: "You chose O, you go first.", flip: true)
+        let when = DispatchTime.now() + 1
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            // Your code with delay
+            self.notifyHumanToMove()
+            self.showMessage(message: "", flip: false)
         }
     }
     
@@ -89,7 +115,7 @@ class ViewController: UIViewController, CustomCollectionVC {
         for i in 0..<board.count{
             if board[i] == .empty{
                 if i == move.cell {
-                    board[i] = .X
+                    board[i] = computerPiece
                 }
             }
         }
@@ -99,7 +125,6 @@ class ViewController: UIViewController, CustomCollectionVC {
     func notifyHumanToMove(){
         computerMove = false
         humanMove = true
-        
     }
     
     func notifyComputerToMove(){
@@ -138,7 +163,7 @@ class ViewController: UIViewController, CustomCollectionVC {
             if newBoard[i] == .empty{
                 
                 // computer move
-                newBoard[i] = .X
+                newBoard[i] = computerPiece
                 
                 // Determine if this is the best move
                 let value = minimax(board: &newBoard, isMax: false, depth:0)
@@ -181,7 +206,7 @@ class ViewController: UIViewController, CustomCollectionVC {
                 if board[i] == .empty{
                     
                     // computer move
-                    board[i] = .X
+                    board[i] = computerPiece
                     
                     // Recursive call to minimax
                     best = max(best, minimax(board: &board, isMax: !isMax, depth: depth + 1))
@@ -199,7 +224,7 @@ class ViewController: UIViewController, CustomCollectionVC {
                 if board[i] == .empty{
                     
                     // human move
-                    board[i] = .O
+                    board[i] = humanPiece
                     
                     // Recursive call to minimax
                     best = min(best, minimax(board: &board, isMax: !isMax, depth: depth + 1))
@@ -225,27 +250,27 @@ class ViewController: UIViewController, CustomCollectionVC {
     func hasWon(board:Array<Piece>)->Int{
         /* Check Rows */
         if getWinner(p1: board[0], p2: board[1], p3: board[2]) {
-            return board[0] == .X ? +10 : -10
+            return board[0] == computerPiece ? +10 : -10
         } else if getWinner(p1: board[3], p2: board[4], p3: board[5]) {
-            return board[3] == .X ? +10 : -10
+            return board[3] == computerPiece ? +10 : -10
         } else if getWinner(p1: board[6], p2: board[7], p3: board[8]) {
-            return board[6] == .X ? +10 : -10
+            return board[6] == computerPiece ? +10 : -10
         }
         
         /* Check Columns */
         if getWinner(p1: board[0], p2: board[3], p3: board[6]) {
-            return board[0] == .X ? +10 : -10
+            return board[0] == computerPiece ? +10 : -10
         } else if getWinner(p1: board[1], p2: board[4], p3: board[7]) {
-            return board[1] == .X ? +10 : -10
+            return board[1] == computerPiece ? +10 : -10
         } else if getWinner(p1: board[2], p2: board[5], p3: board[8]) {
-            return board[2] == .X ? +10 : -10
+            return board[2] == computerPiece ? +10 : -10
         }
         
         /* Check Diagonal*/
         if getWinner(p1: board[0], p2: board[4], p3: board[8]) {
-            return board[0] == .X ? +10 : -10
+            return board[0] == computerPiece ? +10 : -10
         } else if getWinner(p1: board[2], p2: board[4], p3: board[6]) {
-            return board[2] == .X ? +10 : -10
+            return board[2] == computerPiece ? +10 : -10
         }
         
         return 0
@@ -283,8 +308,13 @@ extension ViewController: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard (collectionView.cellForItem(at: indexPath) as? BoardCell) != nil else { return }
         if humanMove && !computerMove{
-            board[indexPath.row] = .O
-            notifyComputerToMove()
+            board[indexPath.row] = humanPiece
+            collectionView.reloadData()
+            let when = DispatchTime.now() + 0.5
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                // Your code with delay
+                  self.notifyComputerToMove()
+            }
         }
         
     }
