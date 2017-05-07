@@ -27,12 +27,12 @@ class BoardCell:UICollectionViewCell{
 class ViewController: UIViewController, CustomCollectionVC {
     
     // const
-    let N = 3
+    let N = 9
     
     // private
     fileprivate var humanMove = false
     fileprivate var computerMove = false
-    fileprivate var board:Array<[Piece]>!
+    fileprivate var board:Array<Piece>!
     
     // public 
     @IBOutlet weak var computerBtn: UIButton!
@@ -41,7 +41,7 @@ class ViewController: UIViewController, CustomCollectionVC {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        board = Array(repeating: Array(repeating: Piece.empty, count:N), count: N)
+        board = Array(repeating: Piece.empty, count:N)
         configCollectionView(delegate: self)
         configureCollectionViewItemSize(collectionView: collectionView, layout: collectionView.collectionViewLayout as! UICollectionViewFlowLayout)
     }
@@ -68,12 +68,10 @@ class ViewController: UIViewController, CustomCollectionVC {
     }
     
     func addMoveToBoard(move:Move){
-        for i in 0..<N{
-            for j in 0..<N{
-                if board[i][j] == .empty{
-                    if i == move.row && j == move.col{
-                        board[i][j] = .X
-                    }
+        for i in 0..<board.count{
+            if board[i] == .empty{
+                if i == move.cell {
+                    board[i] = .X
                 }
             }
         }
@@ -96,35 +94,35 @@ class ViewController: UIViewController, CustomCollectionVC {
     }
     
     func resetGame(){
+        for i in 0..<N{
+            board[i] = .empty
+        }
         
+        collectionView.reloadData()
     }
     
     func makeMove()->Move{
         
         var bestValue = -1000
-        var bestMove = Move(row: -1, col: -1)
+        var bestMove = Move(cell: -1)
         
         // Transverse entire board for empty cells and return cell with the best chance of AI winning.
-        for i in 0..<N{
-            for j in 0..<N{
+        for i in 0..<board.count{
+            if board[i] == .empty{
                 
-                if board[i][j] == .empty{
-                    
-                    // computer move
-                    board[i][j] = .X
-                    
-                    // Determine if this is the best move
-                    let value = minimax(board: &board, max: true, depth:0)
-                    
-                    // reset move
-                    board[i][j] = .empty
-                    
-                    // Update best move
-                    if value > bestValue{
-                        bestMove.row = i
-                        bestMove.col = j
-                        bestValue = value
-                    }
+                // computer move
+                board[i] = .X
+                
+                // Determine if this is the best move
+                let value = minimax(board: &board, max: true, depth:0)
+                
+                // reset move
+                board[i] = .empty
+                
+                // Update best move
+                if value > bestValue{
+                    bestMove.cell = i
+                    bestValue = value
                 }
             }
         }
@@ -133,7 +131,7 @@ class ViewController: UIViewController, CustomCollectionVC {
         return bestMove
     }
     
-    func minimax(board:inout Array<[Piece]>!, max:Bool, depth:Int)->Int{
+    func minimax(board:inout Array<Piece>!, max:Bool, depth:Int)->Int{
         let score = hasWon(board: board)
         
         // We have a winner
@@ -146,18 +144,16 @@ class ViewController: UIViewController, CustomCollectionVC {
         if max{
             var best = 1000
             for i in 0..<N{
-                for j in 0..<N{
-                    if board[i][j] == .empty{
-                        
-                        // computer move
-                        board[i][j] = .X
-                        
-                        // Recursive call to minimax
-                        best = minimax(board: &board, max: true, depth: depth + 1)
-                        
-                        // undo move
-                        board[i][j] = .empty
-                    }
+                if board[i] == .empty{
+                    
+                    // computer move
+                    board[i] = .X
+                    
+                    // Recursive call to minimax
+                    best = minimax(board: &board, max: true, depth: depth + 1)
+                    
+                    // undo move
+                    board[i] = .empty
                 }
             }
             
@@ -166,18 +162,16 @@ class ViewController: UIViewController, CustomCollectionVC {
         } else{
             var best = -1000
             for i in 0..<N{
-                for j in 0..<N{
-                    if board[i][j] == .empty{
-                        
-                        // human move
-                        board[i][j] = .O
-                        
-                        // Recursive call to minimax
-                        best = minimax(board: &board, max: false, depth: depth + 1)
-                        
-                        // undo move
-                        board[i][j] = .empty
-                    }
+                if board[i] == .empty{
+                    
+                    // human move
+                    board[i] = .O
+                    
+                    // Recursive call to minimax
+                    best = minimax(board: &board, max: false, depth: depth + 1)
+                    
+                    // undo move
+                    board[i] = .empty
                 }
             }
             
@@ -186,38 +180,41 @@ class ViewController: UIViewController, CustomCollectionVC {
 
     }
     
-    func areMovesLeft(board:Array<[Piece]>)->Bool{
-        for i in 0..<N{
-            for j in 0..<N{
-                if board[i][j] == .empty{
-                    return true
-                }
+    func areMovesLeft(board:Array<Piece>)->Bool{
+        for i in 0..<board.count{
+            if board[i] == .empty{
+                return true
             }
         }
         return false
     }
     
-    func hasWon(board:Array<[Piece]>)->Int{
-        for i in 0..<board.count{
-            /* Check Rows */
-            if getWinner(p1: board[i][0], p2: board[i][1], p3: board[i][2]) {
-                return board[i][0] == .X ? +10 : -10
-            }
-            
-            /* Check Columns */
-            if getWinner(p1: board[0][i], p2: board[1][i], p3: board[2][i]) {
-                return board[0][i] == .X ? +10 : -10
-            }
-            
-            /* Check Diagonal*/
-            if getWinner(p1: board[0][0], p2: board[1][1], p3: board[2][2]) {
-                return board[0][0] == .X ? +10 : -10
-            }
-            
-            if getWinner(p1: board[0][2], p2: board[1][1], p3: board[2][0]) {
-                return board[0][2] == .X ? +10 : -10
-            }
+    func hasWon(board:Array<Piece>)->Int{
+        /* Check Rows */
+        if getWinner(p1: board[0], p2: board[1], p3: board[2]) {
+            return board[0] == .X ? +10 : -10
+        } else if getWinner(p1: board[3], p2: board[4], p3: board[5]) {
+            return board[3] == .X ? +10 : -10
+        } else if getWinner(p1: board[6], p2: board[7], p3: board[8]) {
+            return board[6] == .X ? +10 : -10
         }
+        
+        /* Check Columns */
+        if getWinner(p1: board[0], p2: board[3], p3: board[6]) {
+            return board[0] == .X ? +10 : -10
+        } else if getWinner(p1: board[1], p2: board[4], p3: board[7]) {
+            return board[1] == .X ? +10 : -10
+        } else if getWinner(p1: board[2], p2: board[5], p3: board[8]) {
+            return board[2] == .X ? +10 : -10
+        }
+        
+        /* Check Diagonal*/
+        if getWinner(p1: board[0], p2: board[4], p3: board[8]) {
+            return board[0] == .X ? +10 : -10
+        } else if getWinner(p1: board[2], p2: board[4], p3: board[6]) {
+            return board[2] == .X ? +10 : -10
+        }
+        
         return 0
     }
     
@@ -236,7 +233,7 @@ class ViewController: UIViewController, CustomCollectionVC {
 extension ViewController: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
-        return 9
+        return board.count
     }
     
     
@@ -244,8 +241,7 @@ extension ViewController: UICollectionViewDataSource{
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: BoardCell.self), for: indexPath)
         guard let boardCell = cell as? BoardCell else { return cell }
-        let flattened = Array(board.joined())
-        let piece = flattened[indexPath.row]
+        let piece = board[indexPath.row]
         boardCell.piece = piece
         boardCell.backgroundColor = UIColor.gray
         return boardCell
@@ -257,23 +253,10 @@ extension ViewController: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard (collectionView.cellForItem(at: indexPath) as? BoardCell) != nil else { return }
         if humanMove && !computerMove{
-            insertIntoBoard(row: indexPath.row)
+            board[indexPath.row] = .O
             notifyComputerToMove()
         }
         
-    }
-    
-    func insertIntoBoard(row:Int){
-        var count = -1
-        for i in 0..<N{
-            for j in 0..<N{
-                count += 1
-                if count == row {
-                    board[i][j] = .O
-                }
-            }
-        }
-        collectionView.reloadData()
     }
 }
 

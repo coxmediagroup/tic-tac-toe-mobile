@@ -9,8 +9,7 @@
 import Foundation
 
 struct Move{
-    var row:Int
-    var col:Int
+    var cell:Int
 }
 
 enum Piece {
