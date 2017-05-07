@@ -36,23 +36,40 @@ class ViewController: UIViewController, CustomCollectionVC {
     fileprivate var board:Array<Piece>!
     
     // public 
-    @IBOutlet weak var computerBtn: UIButton!
-    @IBOutlet weak var humanBtn: UIButton!
+    @IBOutlet weak var welcomeLbl: UILabel!
+    @IBOutlet weak var startGameBtn: UIButton!
+    @IBOutlet weak var chooseLbl: UILabel!
+    @IBOutlet weak var xButton: UIButton!
+    @IBOutlet weak var oButton: UIButton!
     @IBOutlet weak var collectionView:UICollectionView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         board = Array(repeating: Piece.empty, count:N)
+        showAndHideControls(flip: true)
         configCollectionView(delegate: self)
         configureCollectionViewItemSize(collectionView: collectionView, layout: collectionView.collectionViewLayout as! UICollectionViewFlowLayout)
     }
     
-    @IBAction func computerStart(_ sender: Any) {
-        startNewGame(playerMove: Player.Computer)
+    func showAndHideControls(flip:Bool){
+        xButton.isEnabled = !flip
+        xButton.isHidden = flip
+        oButton.isEnabled = !flip
+        oButton.isHidden = flip
+        chooseLbl.isEnabled = !flip
+        chooseLbl.isHidden = flip
+        welcomeLbl.isEnabled = flip
+        welcomeLbl.isHidden = !flip
+        startGameBtn.isEnabled = flip
+        startGameBtn.isHidden = !flip
     }
     
-    @IBAction func humanStart(_ sender: Any) {
-        startNewGame(playerMove: Player.Human)
+    @IBAction func startGameBtnPressed(_ sender: Any) {
+        showPlayerOptions()
+    }
+    
+    func showPlayerOptions(){
+        showAndHideControls(flip: false)
     }
     
     func startNewGame(playerMove:Player){
@@ -82,13 +99,13 @@ class ViewController: UIViewController, CustomCollectionVC {
     func notifyHumanToMove(){
         computerMove = false
         humanMove = true
-        humanBtn.titleLabel?.text = "Its Your Move"
+        
     }
     
     func notifyComputerToMove(){
         computerMove = true
         humanMove = false
-        computerBtn.titleLabel?.text = "Its My Move"
+        
         let bestMove = makeMove()
         addMoveToBoard(move:bestMove)
         notifyHumanToMove()
@@ -256,7 +273,7 @@ extension ViewController: UICollectionViewDataSource{
         guard let boardCell = cell as? BoardCell else { return cell }
         let piece = board[indexPath.row]
         boardCell.piece = piece
-        boardCell.backgroundColor = UIColor.gray
+        boardCell.backgroundColor = UIColor.blue
         return boardCell
     }
 }
