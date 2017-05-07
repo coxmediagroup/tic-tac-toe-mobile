@@ -10,6 +10,7 @@ import Foundation
 
 struct Move{
     var cell:Int
+    var score:Int
 }
 
 enum Piece {

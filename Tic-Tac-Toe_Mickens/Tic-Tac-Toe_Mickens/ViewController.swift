@@ -76,7 +76,13 @@ class ViewController: UIViewController, CustomCollectionVC {
         welcomeLbl.text = message
     }
     
+    func showButton(flip:Bool){
+        startGameBtn.isEnabled = flip
+        startGameBtn.isHidden = !flip
+    }
+    
     @IBAction func startGameBtnPressed(_ sender: Any) {
+        resetGame()
         showPlayerOptions()
     }
     
@@ -93,7 +99,7 @@ class ViewController: UIViewController, CustomCollectionVC {
         let when = DispatchTime.now() + 1
         DispatchQueue.main.asyncAfter(deadline: when) {
             // Your code with delay
-            self.notifyHumanToMove()
+            self.notifyHumanToMove(flip: true)
             self.showMessage(message: "", flip: false)
         }
     }
@@ -106,7 +112,7 @@ class ViewController: UIViewController, CustomCollectionVC {
         let when = DispatchTime.now() + 1
         DispatchQueue.main.asyncAfter(deadline: when) {
             // Your code with delay
-            self.notifyHumanToMove()
+            self.notifyHumanToMove(flip: true)
             self.showMessage(message: "", flip: false)
         }
     }
@@ -122,9 +128,9 @@ class ViewController: UIViewController, CustomCollectionVC {
         collectionView.reloadData()
     }
     
-    func notifyHumanToMove(){
-        computerMove = false
-        humanMove = true
+    func notifyHumanToMove(flip:Bool){
+        computerMove = !flip
+        humanMove = flip
     }
     
     func notifyComputerToMove(){
@@ -133,7 +139,19 @@ class ViewController: UIViewController, CustomCollectionVC {
         
         let bestMove = makeMove()
         addMoveToBoard(move:bestMove)
-        notifyHumanToMove()
+        if bestMove.score == 10 {
+            // Human Player loses :(
+            notifyHumanToMove(flip: false)
+            showMessage(message: "Looooooooosseeerrrrrr : ), try again.", flip: true)
+            showButton(flip: true)
+        } else if bestMove.score == -1000{
+            // Human and Computer Draw
+            notifyHumanToMove(flip: false)
+            showMessage(message: "It's a Draw! Bet I beat you next time :]", flip: true)
+            showButton(flip: true)
+        } else{
+            notifyHumanToMove(flip: true)
+        }
     }
     
     func resetGame(){
@@ -156,7 +174,7 @@ class ViewController: UIViewController, CustomCollectionVC {
         }
         
         var bestValue = -1000
-        var bestMove = Move(cell: -1)
+        var bestMove = Move(cell: -1, score: -1)
         
         // Transverse entire board for empty cells and return cell with the best chance of AI winning.
         for i in 0..<board.count{
@@ -180,6 +198,7 @@ class ViewController: UIViewController, CustomCollectionVC {
         }
         
         print("Best move value is \(bestValue)")
+        bestMove.score = bestValue
         return bestMove
     }
     
