@@ -14,12 +14,13 @@ class ViewController: UIViewController {
     var playerIsActive = true
     var plays = Dictionary<Int, Int>()
     var stalemate = 0
-    var gameState = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    var grid = [[0,0,0], [0,0,0], [0,0,0]]
     var gameOver = true
  
     @IBOutlet weak var newGameButton: UIButton!
 
+    @IBAction func newGameReset(_ sender: UIButton) {
+        resetGame()
+    }
     @IBOutlet weak var staticImage: UIImageView!
     
     @IBOutlet weak var image1: UIImageView!
@@ -44,44 +45,62 @@ class ViewController: UIViewController {
     
     @IBAction func buttonPressed(_ sender: UIButton) {
         
-        if (gameState[sender.tag] == 0) {
-            gameState[sender.tag] = player
-            if (player == 1)
-            {
+        newGameButton.isHidden = true
+        if (plays[sender.tag]) == nil {
+            plays[sender.tag] = playerIsActive ? 1:2
+            if player == 1 {
                 sender.setImage(UIImage(named: "x_png"), for: UIControlState())
                 player = 2
-            }
-            else
-            {
+            } else {
                 sender.setImage(UIImage(named: "o_png"), for: UIControlState())
                 player = 1
             }
             
             checkForWinner()
+            
         }
-        
-
     }
     
     func checkForWinner() {
-        
-        let winner = ["Player1" : 0, "Player2" : 1]
-        for (key, value)  in winner {
+        let winner = ["player1" : 1, "player2" : 2]
+        for (key, value) in winner {
             
-            if ((plays[1] == value && plays[2] == value && plays[3] == value))
-                || ((plays[4] == value && plays[5] == value && plays[6] == value))
-                || ((plays[7] == value && plays[8] == value && plays[9] == value))
-                || ((plays[1] == value && plays[4] == value && plays[7] == value))
-                || ((plays[2] == value && plays[5] == value && plays[8] == value))
-                || ((plays[3] == value && plays[6] == value && plays[9] == value))
-                || ((plays[1] == value && plays[5] == value && plays[9] == value))
-                || ((plays[3] == value && plays[5] == value && plays[7] == value)) {
-                gameOver = true
+            if ((plays[0]==value && plays[1]==value && plays[2]==value))
+                || ((plays[3] == value && plays[4] == value && plays[5] == value))
+                || ((plays[6]==value && plays[7]==value && plays[8]==value))
+                || ((plays[0]==value && plays[3]==value && plays[6]==value))
+                || ((plays[1]==value && plays[4]==value && plays[7]==value))
+                || ((plays[2]==value && plays[5]==value && plays[8]==value))
+                || ((plays[0]==value && plays[4]==value && plays[8]==value))
+                || ((plays[2]==value && plays[4]==value && plays[6]==value))
+            {
+                print("\(key) is the winner")
                 newGameButton.isHidden = false
+
+                
             }
+        
         }
+        
+        
     }
     
+
+
+    func resetGame() {
+        newGameButton.isHidden = true
+        plays = [:]
+        image1.image = nil
+        image2.image = nil
+        image3.image = nil
+        image4.image = nil
+        image5.image = nil
+        image6.image = nil
+        image7.image = nil
+        image8.image = nil
+        image9.image = nil
+    }
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
