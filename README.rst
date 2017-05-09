@@ -1,29 +1,9 @@
-Story
-======
+ 
 
-As a CMG employee, I want to see how you code a game of Tic Tac Toe,
-so that I can get a feel for a candidate's skills and strengths.
+Tic Tac Toe game created in Swift. Tested on the simulator, iPod, and iPad. No constraints on the Game Controller, but all UI should be visible on any device. Reset game was a bit cut off on the iPod device. Game does give player an option to choose X or O. Didn't get to implement much on the AI side, but laid out some future steps I'd like to take once as I still intend to complete this challenge. 
 
-Acceptance criteria
-=======================
+There is a bug. The reset game button should only appear when a player has won or the game is a draw. Initially the reset game button does appear when the game is started, but disappears once the first move is made. This only happens while playing the game for the first time.
 
-* Application is a stand alone native mobile (java, swift, objective-c) game of tic tac toe
-* Computer (AI) will never lose a game
-* Application should be able to run without modifications on IOS or Android
-* Game will let player choose to be either X or O, computer will take other choice
-* Game will let player go first
+To fix the UI for Game Controller, I'd place all of the X and O buttons (3 x 3) in 3 horizontal stackviews. Then place them in one large view (Button Stack View). Then take the Button Stack View and place it in another stack view with the start Game button. Of course, there's still the grid that the buttons are aligned within, but I haven't figured that one out quite yet. I'll have to fiddle a bit more with that layout.
 
-Submission Tips
-========================
-* Quality counts! A good submission that takes a while is better than a poor submission quickly.
-* Make sure your submission accurately reflects your development style.
-* Commit early and often, with good messages.
-* Comments and Unit tests are appreciated but not required, if you know good practice, then show us.
-* Research the AI, there are multiple well known algorithms available, show us your implementation.
-* Plagiarism will not be tolerated.
-
-Submissions
----------------
-* Fork this repo and send us a pull request.
-* If you prefer you can send us a ZIP of your submission, due to email filters,
-  rename the file to *.txt and mention it is a ZIP in your email.
+The AI file is where all AI implementation is handled. Initially a start with satisfying all required functions and protocols and each of the variables. Set up Didn't have much time to go further with this part, but there's plenty of potential code. Ran into a hangup when trying to have the AI class conform to NSObject, GKGameModel, GKGameModelPlayer, and GKGameModelUpdate. My thoughts were to then remove the protocols and created extensions. Instead creating classes to separate the model logic to house data required to function and actually implement movement logic in the Move class. In the future, will work on GKGameModel implement and having the AI class conform to that protocol. Should make the code a bit cleaner and concise.
