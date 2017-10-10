@@ -26,6 +26,7 @@ protocol GameEventsDelegate: class {
 
 class Game {
    
+   
    var players: [Player] = [
       Player(type: .player, letter: .x),
       Player(type: .siri, letter: .o),
@@ -53,7 +54,7 @@ class Game {
       gameState = .playing
    }
    
-   
+   // Returns true if the player is allowed to make a move
    func canPlayerMove() -> Bool {
       if gameState == .playing {  // only if playing
          // only if it's their turn
@@ -67,6 +68,7 @@ class Game {
       return false
    }
 
+   //    Dumb AI for testing Siri losing
    func playerMakeMove(index: Int) -> Bool {
       if canPlayerMove() {
          if board.spaceIsUnused(index: index) {
@@ -80,7 +82,15 @@ class Game {
       return false
    }
 
+   
    func siriMakeMove() {
+      if turn == .siri {
+         miniMaxCalculatedMove()
+         // dumbAICalculatedMove()
+      }
+   }
+
+   func dumbAICalculatedMove() {
       for index in 0...8 {
          if turn == .siri {
             if board.spaceIsUnused(index: index) {
@@ -94,7 +104,7 @@ class Game {
          }
       }
    }
-
+   
    func checkNextMove() {
       if board.isGameOver() {  // if the game is over, see who won, if any
          turn = .player  // make sure siri doesn't keep playing moves
@@ -117,4 +127,101 @@ class Game {
          }
       }
    }
+   
+   
+   
+   // MARK : Minimax AI functionality
+   
+   func miniMaxCalculatedMove() {
+      let result = miniMaxCalculation(board: board, playerLetter: players[1].playerLetter)
+      
+      if let boardState = BoardStates.boardStateForString(stringValue: players[1].playerLetter.rawValue) {
+         board.setBoardState(index: result.bestChoice, state: boardState)
+         // Notify the delegate that Siri has played his/her move!
+         delegate?.siriPlayedMove(result.bestChoice)
+         checkNextMove()
+      }
+   }
+   
+   // Returns a tuple, with the estimated score for the move on the board, and the best choice given the scores so far
+   func miniMaxCalculation(board: GameBoard, playerLetter: PlayerLetter) -> (score: Int, bestChoice: Int) {
+
+      
+      // are there any more movements left?
+      if board.isGameOver() {
+         return (score: calculateScore(board), bestChoice: -1)
+      }
+      
+      var scores : [Int] = []  // tracks the scores of each move on the board
+      var moves : [Int] = []   // tracks the move that goes with the score.
+      
+      let movesLeft = board.getMovesLeft()
+      for move in movesLeft
+      {
+         let nextBoard = board.copyGameBoard()
+         
+         if let boardState = BoardStates.boardStateForString(stringValue: playerLetter.rawValue) {
+            nextBoard.setBoardState(index: move, state: boardState)
+
+            // Score out the next move by recursion
+            let miniMaxCalculated = miniMaxCalculation(board: nextBoard, playerLetter : PlayerLetter.oppositeOf(value: playerLetter))
+            // save the score for this calculation
+            scores.append(miniMaxCalculated.score)
+            // save the move that goes with the score
+            moves.append(move)
+         }
+      }
+      // for Siri choose maximum from moves
+      if players[1].playerLetter == playerLetter {
+         let index = indexOfMaximum(list: scores)
+         let choice = moves[index]
+         return (scores[index], choice)
+      }
+      else // for player the minimum is better for the calculation
+      {
+         let index = indexOfMinimum(list: scores)
+         let choice = moves[index]
+         return (scores[index], choice)
+      }
+   }
+   
+   
+   func calculateScore(_ board: GameBoard) -> Int {
+      
+      let winner = board.gameWinner()
+      if winner == nil {
+         return 0
+      } else if winner == players[1].playerLetter.rawValue {
+         return 10
+      } else {
+         return -10
+      }
+   }
+   
+   
+   func indexOfMinimum(list: [Int]) -> Int {
+      var result = 0
+      var min = list[0]
+      for index in 1..<list.count {
+         if list[index] < min {
+            result = index;
+            min = list[index]
+         }
+      }
+      return result;
+   }
+   
+   func indexOfMaximum(list: [Int]) -> Int {
+      var result = 0
+      var max = list[0]
+      for index in 1..<list.count {
+         if list[index] > max {
+            result = index;
+            max = list[index]
+         }
+      }
+      return result;
+   }
+
+
 }

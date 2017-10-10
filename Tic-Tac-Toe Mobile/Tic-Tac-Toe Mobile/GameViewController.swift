@@ -45,6 +45,7 @@ class GameViewController: UIViewController, GameEventsDelegate {
       if game.canPlayerMove() {
          if game.playerMakeMove(index: sender.tag) {
             sender.setTitle(currentLetter.rawValue, for: .normal)
+            updateStatus(text: "Siri is thinking...")
          } else {
             updateStatus(text: "Spot already taken.  Choose another.")
          }
@@ -113,6 +114,8 @@ class GameViewController: UIViewController, GameEventsDelegate {
       if let button = self.view.viewWithTag(index) as? UIButton {
          button.setTitle(PlayerLetter.oppositeOf(value: self.currentLetter).rawValue, for: .normal)
       }
+      updateStatus(text: "Your turn!")
+
 
    }
 

@@ -94,6 +94,20 @@ class GameBoard {
       
    }
    
+   // Returns a list of the remaining moves on the board
+   func getMovesLeft() -> [Int] {
+      
+      var moves:[Int] = []
+      for index in 0...8 {
+         if board[index] == .unused {
+            moves.append(index)
+         }
+      }
+      
+      return moves;
+   }
+
+   
    // Returns the winning letter of the game, if any, otherwise, nil
    func gameWinner() -> String? {
       for pattern in winningPatterns {
