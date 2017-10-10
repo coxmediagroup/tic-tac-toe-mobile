@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Game View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Tic_Tac_Toe_Mobile" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="GameViewController" customModule="Tic_Tac_Toe_Mobile" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -62,8 +62,11 @@
                                         <state key="normal">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="boardButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="d1u-fF-qGi"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bEi-sU-T2A" userLabel="Button 1">
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bEi-sU-T2A" userLabel="Button 1">
                                         <rect key="frame" x="125" y="0.0" width="90" height="90"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="90" id="8u0-sg-JHB"/>
@@ -73,8 +76,11 @@
                                         <state key="normal">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="boardButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fwe-El-k25"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KBY-jS-75d" userLabel="Button 2">
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KBY-jS-75d" userLabel="Button 2">
                                         <rect key="frame" x="250" y="0.0" width="90" height="90"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="90" id="P3Q-C0-Gqa"/>
@@ -84,8 +90,11 @@
                                         <state key="normal">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="boardButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9kg-q2-0YE"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ltk-2a-sjt" userLabel="Button 3">
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ltk-2a-sjt" userLabel="Button 3">
                                         <rect key="frame" x="0.0" y="125" width="90" height="90"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="90" id="CcV-Hj-BPE"/>
@@ -95,8 +104,11 @@
                                         <state key="normal">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="boardButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0Hh-bf-ww4"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NJN-Bi-woM" userLabel="Button 4">
+                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NJN-Bi-woM" userLabel="Button 4">
                                         <rect key="frame" x="125" y="125" width="90" height="90"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="90" id="GGL-et-Jq6"/>
@@ -106,8 +118,11 @@
                                         <state key="normal">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="boardButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7qY-K9-ngq"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gAI-H9-Jte" userLabel="Button 5">
+                                    <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gAI-H9-Jte" userLabel="Button 5">
                                         <rect key="frame" x="250" y="125" width="90" height="90"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="90" id="0Lp-Xa-JfQ"/>
@@ -117,8 +132,11 @@
                                         <state key="normal">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="boardButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gMB-O0-7Oc"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hs9-bI-tE7" userLabel="Button 6">
+                                    <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hs9-bI-tE7" userLabel="Button 6">
                                         <rect key="frame" x="0.0" y="250" width="90" height="90"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="90" id="BJq-b6-PnS"/>
@@ -128,8 +146,11 @@
                                         <state key="normal">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="boardButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ex2-O4-4A5"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SDV-af-8BQ" userLabel="Button 7">
+                                    <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SDV-af-8BQ" userLabel="Button 7">
                                         <rect key="frame" x="125" y="250" width="90" height="90"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="90" id="OlL-Pw-p0C"/>
@@ -139,8 +160,11 @@
                                         <state key="normal">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="boardButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zbT-io-pvM"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dDI-G4-jTQ" userLabel="Button 8">
+                                    <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dDI-G4-jTQ" userLabel="Button 8">
                                         <rect key="frame" x="250" y="250" width="90" height="90"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="90" id="PRf-nl-4sC"/>
@@ -150,6 +174,9 @@
                                         <state key="normal">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="boardButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="z98-u0-U6R"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -201,10 +228,14 @@
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem title="New Game" id="ZrB-AM-sGL"/>
+                                    <barButtonItem title="New Game" id="ZrB-AM-sGL">
+                                        <connections>
+                                            <action selector="newGamePressed:" destination="BYZ-38-t0r" id="8PM-ij-w7F"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Ev-AP-g4L">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Ev-AP-g4L" userLabel="Stats View">
                                 <rect key="frame" x="-0.5" y="460" width="375" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wins" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aT8-cV-Jdz">
@@ -287,6 +318,10 @@
                             <constraint firstItem="uGb-wg-66D" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="my8-5W-57a"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="playerScore" destination="aQ2-02-wUP" id="BOA-QJ-f6x"/>
+                        <outlet property="siriScore" destination="s2t-p7-hvl" id="aom-Qq-cwd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
