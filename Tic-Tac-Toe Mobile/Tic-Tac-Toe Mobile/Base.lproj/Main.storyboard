@@ -321,6 +321,7 @@
                     <connections>
                         <outlet property="playerScore" destination="aQ2-02-wUP" id="BOA-QJ-f6x"/>
                         <outlet property="siriScore" destination="s2t-p7-hvl" id="aom-Qq-cwd"/>
+                        <outlet property="status" destination="uGb-wg-66D" id="x4s-1e-UJZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

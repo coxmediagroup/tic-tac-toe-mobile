@@ -10,6 +10,8 @@ import UIKit
 
 class GameViewController: UIViewController {
 
+   @IBOutlet weak var status: UILabel!
+
    @IBOutlet weak var playerScore: UILabel!
    @IBOutlet weak var siriScore: UILabel!
 
@@ -25,6 +27,11 @@ class GameViewController: UIViewController {
    @IBOutlet weak var button7: UIButton!
    @IBOutlet weak var button8: UIButton!
    
+   
+   var currentLetter: PlayerLetter = .x
+   
+   var board: GameBoard = GameBoard()
+   
    override func viewDidLoad() {
       super.viewDidLoad()
       // Do any additional setup after loading the view, typically from a nib.
@@ -36,13 +43,42 @@ class GameViewController: UIViewController {
    }
 
    @IBAction func boardButtonPressed(_ sender: UIButton) {
-      sender.setTitle("X", for: .normal)
+      sender.setTitle(currentLetter.rawValue, for: .normal)
+      if let boardState = BoardStates.boardStateForString(stringValue: currentLetter.rawValue) {
+         board.setBoardState(index: sender.tag, state: boardState)
+      }
+      if board.isGameOver() {
+         status.text = "Game Over"
+      } else {
+         if currentLetter == .x  {
+            currentLetter = .o
+         } else {
+            currentLetter = .x
+         }
+      }
    }
    
    @IBAction func newGamePressed(_ sender: UIBarButtonItem) {
-      
+      let alertController = UIAlertController(title: "New Game", message: "Choose Your Letter", preferredStyle: UIAlertControllerStyle.actionSheet)
+      let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (result : UIAlertAction) -> Void in
+      }
+      let xAction = UIAlertAction(title: "X", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
+         self.currentLetter = .x
+         self.newGame()
+      }
+      let oAction = UIAlertAction(title: "O", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
+         self.currentLetter = .o
+         self.newGame()
+      }
+      alertController.addAction(xAction)
+      alertController.addAction(oAction)
+      alertController.addAction(cancelAction)
+      self.present(alertController, animated: true, completion: nil)
    }
-   
+
+   func newGame() {
+      board.clearBoard()
+   }
    
 
 }
