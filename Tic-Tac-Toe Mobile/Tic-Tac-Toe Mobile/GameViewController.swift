@@ -45,7 +45,9 @@ class GameViewController: UIViewController, GameEventsDelegate {
       if game.canPlayerMove() {
          if game.playerMakeMove(index: sender.tag) {
             sender.setTitle(currentLetter.rawValue, for: .normal)
-            updateStatus(text: "Siri is thinking...")
+            if !game.board.isGameOver() {
+               updateStatus(text: "Siri is thinking...")
+            }
          } else {
             updateStatus(text: "Spot already taken.  Choose another.")
          }

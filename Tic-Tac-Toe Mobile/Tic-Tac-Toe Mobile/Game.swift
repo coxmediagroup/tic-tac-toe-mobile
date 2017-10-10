@@ -133,14 +133,21 @@ class Game {
    // MARK : Minimax AI functionality
    
    func miniMaxCalculatedMove() {
-      let result = miniMaxCalculation(board: board, playerLetter: players[1].playerLetter)
       
-      if let boardState = BoardStates.boardStateForString(stringValue: players[1].playerLetter.rawValue) {
-         board.setBoardState(index: result.bestChoice, state: boardState)
-         // Notify the delegate that Siri has played his/her move!
-         delegate?.siriPlayedMove(result.bestChoice)
-         checkNextMove()
+      DispatchQueue.global(qos: .userInitiated).async { // Start asynchronously so that the UI is not blocked by this long operation
+         
+         let result = self.miniMaxCalculation(board: self.board, playerLetter: self.players[1].playerLetter)
+         
+         DispatchQueue.main.async {
+            if let boardState = BoardStates.boardStateForString(stringValue: self.players[1].playerLetter.rawValue) {
+               self.board.setBoardState(index: result.bestChoice, state: boardState)
+               // Notify the delegate that Siri has played his/her move!
+               self.delegate?.siriPlayedMove(result.bestChoice)
+               self.checkNextMove()
+            }
+         }
       }
+
    }
    
    // Returns a tuple, with the estimated score for the move on the board, and the best choice given the scores so far
