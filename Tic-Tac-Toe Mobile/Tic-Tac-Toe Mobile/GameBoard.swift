@@ -57,6 +57,14 @@ class GameBoard {
       board[index] = state
    }
 
+   // Returns true if the space passed by index is not yet played
+   func spaceIsUnused(index: Int ) -> Bool {
+      if board[index] == .unused {
+         return true
+      }
+      return false
+   }
+
    // Reset the state of the entire board
    func clearBoard() {
       for index in 0...8  {

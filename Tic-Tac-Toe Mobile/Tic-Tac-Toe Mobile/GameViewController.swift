@@ -30,7 +30,7 @@ class GameViewController: UIViewController {
    
    var currentLetter: PlayerLetter = .x
    
-   var board: GameBoard = GameBoard()
+   var game: Game = Game()
    
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -43,22 +43,19 @@ class GameViewController: UIViewController {
    }
 
    @IBAction func boardButtonPressed(_ sender: UIButton) {
-      sender.setTitle(currentLetter.rawValue, for: .normal)
-      if let boardState = BoardStates.boardStateForString(stringValue: currentLetter.rawValue) {
-         board.setBoardState(index: sender.tag, state: boardState)
-      }
-      if board.isGameOver() {
-         status.text = "Game Over"
-      } else {
-         if currentLetter == .x  {
-            currentLetter = .o
+      if game.canPlayerMove() {
+         if game.playerMakeMove(index: sender.tag) {
+            sender.setTitle(currentLetter.rawValue, for: .normal)
+            updateStatus(text: "Siri's turn...")
          } else {
-            currentLetter = .x
+            updateStatus(text: "Spot already taken.  Choose another.")
          }
       }
    }
    
    @IBAction func newGamePressed(_ sender: UIBarButtonItem) {
+      
+      // See what letter the player wants to be
       let alertController = UIAlertController(title: "New Game", message: "Choose Your Letter", preferredStyle: UIAlertControllerStyle.actionSheet)
       let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (result : UIAlertAction) -> Void in
       }
@@ -77,9 +74,13 @@ class GameViewController: UIViewController {
    }
 
    func newGame() {
-      board.clearBoard()
+      game.newGame(playerIs: self.currentLetter)
+      updateStatus(text: "Make your Move!")
    }
    
+   func updateStatus(text: String) {
+      status.text = text
+   }
 
 }
 

@@ -14,11 +14,20 @@ import Foundation
 enum PlayerType : String {
    case player = "Player"
    case siri = "Siri"
+   
+
 }
 
 enum PlayerLetter : String {
    case x = "X"
    case o = "O"
+   static func oppositeOf(value: PlayerLetter) -> PlayerLetter {
+      if value == .x {
+         return .o
+      }
+      return .x
+   }
+
 }
 
 class Player {
