@@ -11,11 +11,17 @@
 import Foundation
 
 
-enum GameStates: Int {
-   case playing = 0
-   case playerWon = 1
-   case siriWon = 2
-   case draw = 3
+enum GameStates: String {
+   case playing = "Playing"
+   case playerWon = "You Won!"
+   case siriWon = "Siri Won"
+   case draw = "It's a draw"
+}
+
+
+protocol GameEventsDelegate: class {
+   func siriPlayedMove(_ index: Int)
+   func gameOver(_ winner: String)
 }
 
 class Game {
@@ -33,6 +39,10 @@ class Game {
    // The game board object
    var board: GameBoard = GameBoard()
 
+   weak var delegate: GameEventsDelegate?
+   
+   
+   
    func newGame(playerIs: PlayerLetter) {
       // Set the player's letter based on their choosing
       players[0].playerLetter = playerIs
@@ -76,6 +86,8 @@ class Game {
             if board.spaceIsUnused(index: index) {
                if let boardState = BoardStates.boardStateForString(stringValue: players[1].playerLetter.rawValue) {
                   board.setBoardState(index: index, state: boardState)
+                  // Notify the delegate that Siri has played his/her move!
+                  delegate?.siriPlayedMove(index)
                   checkNextMove()
                }
             }
@@ -85,6 +97,7 @@ class Game {
 
    func checkNextMove() {
       if board.isGameOver() {  // if the game is over, see who won, if any
+         turn = .player  // make sure siri doesn't keep playing moves
          if let winner = board.gameWinner() {
             if winner == players[0].playerLetter.rawValue {
                gameState = .playerWon
@@ -94,6 +107,7 @@ class Game {
          } else {
             gameState = .draw
          }
+         delegate?.gameOver(gameState.rawValue)
       } else {  // otherwise, switch turns
          if turn == .player {
             turn = .siri
