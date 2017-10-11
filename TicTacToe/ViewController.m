@@ -25,6 +25,8 @@
 @property (strong, nonatomic) UIColor *humanColor;
 @property (strong, nonatomic) UIColor *aiColor;
 @property (assign, nonatomic) BOOL playerTurn;
+@property (strong, nonatomic) UILabel *endOfGameLabel;
+@property (strong, nonatomic) UIImageView *winLineImageView;
 
 @end
 
@@ -53,6 +55,7 @@
     self.playerTurn = YES;
     self.gameState = 1; // Active
     self.humanPlayer = self.settings.letterSelection;
+    self.endOfGameLabel.text = @"";
     if ([self.humanPlayer isEqualToString:@"X"]) self.aiPlayer = @"O";
     else self.aiPlayer = @"X";
     
@@ -63,6 +66,9 @@
     for (UIButton *button in self.selectionButtonsArray) {
         [button setTitle:@"" forState:UIControlStateNormal];
     }
+    
+    // Remove line
+    [self.winLineImageView removeFromSuperview];
 }
 
 - (void)displaySettings
@@ -138,7 +144,16 @@
     
     UIImage *repeatButtonImage = [UIImage imageNamed:@"repeatButton"];
     [self.repeatButton setImage:repeatButtonImage forState:UIControlStateNormal];
-
+    
+    
+    // Add end of game label
+    self.endOfGameLabel = [[UILabel alloc] init];
+    self.endOfGameLabel.textAlignment = NSTextAlignmentCenter;
+    self.endOfGameLabel.textColor = [UIColor colorWithRed:250.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0];
+    self.endOfGameLabel.text = @"";
+    self.endOfGameLabel.font = [UIFont fontWithName:@"Arial-BoldMT" size:50];
+    self.endOfGameLabel.frame = CGRectMake([UIScreen mainScreen].bounds.size.width/2-150, [UIScreen mainScreen].bounds.size.height/2-200, 300, 40);
+    [self.view addSubview:self.endOfGameLabel];
 }
 
 - (void)addButton:(NSMutableArray *)buttonArray
@@ -154,7 +169,6 @@
     button.titleLabel.font = [UIFont fontWithName:@"Arial-BoldMT" size:92];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     button.frame = CGRectMake(x, y, 80.0, 80.0);
-//    [button setBackgroundColor:[UIColor darkGrayColor]];
     [self.view addSubview:button];
     [buttonArray addObject:button];
     button.tag = tag;
@@ -178,7 +192,7 @@
     }
     
     // After each user selection, check for a win or tie
-    if ([self winningMove:self.board value:self.humanPlayer]) {
+    if ([self winningMove:self.board value:self.humanPlayer displayLine:YES]) {
         NSLog(@"Player won.  Though technically it's not possible against the AI");
         [self displayEndOfGame:@"You Won!"];
     }
@@ -197,7 +211,7 @@
             [self.board replaceObjectAtIndex:bestAIMove withObject:self.aiPlayer];
             NSLog(@"Board after move:%@",self.board);
             
-            if ([self winningMove:self.board value:self.aiPlayer]) {
+            if ([self winningMove:self.board value:self.aiPlayer displayLine:YES]) {
                 NSLog(@"AI won!");
                 [self displayEndOfGame:@"You Lost!"];
             }
@@ -214,7 +228,7 @@
 
 - (void)displayEndOfGame:(NSString *)str
 {
-    
+    self.endOfGameLabel.text = str;
 }
 
 - (int)findBestMove
@@ -249,11 +263,11 @@
     NSArray *emptySpaces = [self getEmptySpaces:board];
     
     // See if it is a winning move
-    if ([self winningMove:board value:self.aiPlayer]) {
+    if ([self winningMove:board value:self.aiPlayer displayLine:NO]) {
         return score = 100;
     }
     // See if it is a losing move
-    else if ([self winningMove:board value:self.humanPlayer]) {
+    else if ([self winningMove:board value:self.humanPlayer displayLine:NO]) {
         return score = -100;
     }
     // If no empty spaces, there are no moves left and game is over (it is a draw)
@@ -322,18 +336,90 @@
     return (NSArray *)emptySpaces;
 }
 
-- (BOOL)winningMove:(NSArray *)board value:(NSString *)value
+- (BOOL)winningMove:(NSArray *)board value:(NSString *)value displayLine:(BOOL)displayLine
 {
-    if (([board[0] isEqualToString:value]) && ([board[1] isEqualToString:value]) && ([board[2] isEqualToString:value])) return YES;
-    else if (([board[3] isEqualToString:value]) && ([board[4] isEqualToString:value]) && ([board[5] isEqualToString:value])) return YES;
-    else if (([board[6] isEqualToString:value]) && ([board[7] isEqualToString:value]) && ([board[8] isEqualToString:value])) return YES;
-    else if (([board[0] isEqualToString:value]) && ([board[3] isEqualToString:value]) && ([board[6] isEqualToString:value])) return YES;
-    else if (([board[1] isEqualToString:value]) && ([board[4] isEqualToString:value]) && ([board[7] isEqualToString:value])) return YES;
-    else if (([board[2] isEqualToString:value]) && ([board[5] isEqualToString:value]) && ([board[8] isEqualToString:value])) return YES;
-    else if (([board[0] isEqualToString:value]) && ([board[4] isEqualToString:value]) && ([board[8] isEqualToString:value])) return YES;
-    else if (([board[2] isEqualToString:value]) && ([board[4] isEqualToString:value]) && ([board[6] isEqualToString:value])) return YES;
+    if (([board[0] isEqualToString:value]) && ([board[1] isEqualToString:value]) && ([board[2] isEqualToString:value])) {
+        if (displayLine) {
+            [self displayWinLine:1 x:[UIScreen mainScreen].bounds.size.width/2 y:[UIScreen mainScreen].bounds.size.height/2-75];
+        }
+        return YES;
+    }
+    else if (([board[3] isEqualToString:value]) && ([board[4] isEqualToString:value]) && ([board[5] isEqualToString:value])) {
+        if (displayLine) {
+            [self displayWinLine:1 x:[UIScreen mainScreen].bounds.size.width/2 y:[UIScreen mainScreen].bounds.size.height/2+15];
+        }
+        return YES;
+    }
+    else if (([board[6] isEqualToString:value]) && ([board[7] isEqualToString:value]) && ([board[8] isEqualToString:value])) {
+        if (displayLine) {
+            [self displayWinLine:1 x:[UIScreen mainScreen].bounds.size.width/2 y:[UIScreen mainScreen].bounds.size.height/2+100];
+        }
+        return YES;
+    }
+    else if (([board[0] isEqualToString:value]) && ([board[3] isEqualToString:value]) && ([board[6] isEqualToString:value])) {
+        if (displayLine) {
+            [self displayWinLine:2 x:[UIScreen mainScreen].bounds.size.width/2-90 y:[UIScreen mainScreen].bounds.size.height/2+15];
+        }
+        return YES;
+    }
+    else if (([board[1] isEqualToString:value]) && ([board[4] isEqualToString:value]) && ([board[7] isEqualToString:value])) {
+        if (displayLine) {
+            [self displayWinLine:2 x:[UIScreen mainScreen].bounds.size.width/2 y:[UIScreen mainScreen].bounds.size.height/2+15];
+        }
+        return YES;
+    }
+    else if (([board[2] isEqualToString:value]) && ([board[5] isEqualToString:value]) && ([board[8] isEqualToString:value])) {
+        if (displayLine) {
+            [self displayWinLine:2 x:[UIScreen mainScreen].bounds.size.width/2+90 y:[UIScreen mainScreen].bounds.size.height/2+15];
+        }
+        return YES;
+    }
+    else if (([board[0] isEqualToString:value]) && ([board[4] isEqualToString:value]) && ([board[8] isEqualToString:value])) {
+        if (displayLine) {
+            [self displayWinLine:3 x:[UIScreen mainScreen].bounds.size.width/2 y:[UIScreen mainScreen].bounds.size.height/2+15];
+        }
+        return YES;
+    }
+    else if (([board[2] isEqualToString:value]) && ([board[4] isEqualToString:value]) && ([board[6] isEqualToString:value])) {
+        if (displayLine) {
+            [self displayWinLine:4 x:[UIScreen mainScreen].bounds.size.width/2 y:[UIScreen mainScreen].bounds.size.height/2+15];
+        }
+        return YES;
+    }
     
     return NO;
+}
+
+- (void)displayWinLine:(int)type x:(int)x y:(int)y
+{
+    NSString *imageStr;
+    switch (type)
+    {
+        case 1:
+            imageStr = @"horizontalLine";
+            break;
+        case 2:
+            imageStr = @"verticalLine";
+            break;
+        case 3:
+            imageStr = @"slantLineDown";
+            break;
+        case 4:
+            imageStr = @"slantLineUp";
+            break;
+        default:
+            imageStr = @"horizontalLine";
+            break;
+    }
+
+    UIImage *winLineImage = [UIImage imageNamed:imageStr];
+    self.winLineImageView = [[UIImageView alloc] init];
+    CGRect frame = CGRectMake(x-130, y-130, 260, 260);
+    self.winLineImageView.frame = frame;
+    [self.winLineImageView setImage:winLineImage];
+    self.winLineImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.view addSubview:self.winLineImageView];
+
 }
 
 - (void)didReceiveMemoryWarning {

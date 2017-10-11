@@ -92,7 +92,6 @@
     letterLabel.font = [UIFont fontWithName:@"Arial-BoldMT" size:20];
     letterLabel.frame = CGRectMake(self.frame.size.width/2-100, 35, 200, 20);
     [self addSubview:letterLabel];
-
 }
 
 - (void)selectX:(id)sender
@@ -116,6 +115,7 @@
     [UIView animateWithDuration:0.25f animations:^{
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y+self.frame.size.height*2, self.frame.size.width, self.frame.size.height);
     } completion:^(BOOL finished) {
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"startGame" object:nil];
         [self removeFromSuperview];
     }];

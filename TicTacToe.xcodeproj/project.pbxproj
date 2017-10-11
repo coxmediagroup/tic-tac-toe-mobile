@@ -212,6 +212,7 @@
 				TargetAttributes = {
 					E7CBD1581F8C41B4007E6451 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = S67278VE3D;
 						ProvisioningStyle = Automatic;
 					};
 					E7CBD1711F8C41B5007E6451 = {
@@ -432,6 +433,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = S67278VE3D;
 				INFOPLIST_FILE = TicTacToe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cmg.TicTacToe;
@@ -443,6 +445,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = S67278VE3D;
 				INFOPLIST_FILE = TicTacToe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cmg.TicTacToe;
