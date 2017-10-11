@@ -16,6 +16,7 @@
 		E7CBD1771F8C41B5007E6451 /* TicTacToeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CBD1761F8C41B5007E6451 /* TicTacToeTests.m */; };
 		E7CBD1821F8C41B5007E6451 /* TicTacToeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CBD1811F8C41B5007E6451 /* TicTacToeUITests.m */; };
 		E7CBD1941F8D9F7B007E6451 /* SettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CBD1931F8D9F7B007E6451 /* SettingsView.m */; };
+		E7F93A161F8EC518006FF025 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = E7F93A151F8EC518006FF025 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		E7CBD1831F8C41B5007E6451 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7CBD1921F8D9F5F007E6451 /* SettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsView.h; sourceTree = "<group>"; };
 		E7CBD1931F8D9F7B007E6451 /* SettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsView.m; sourceTree = "<group>"; };
+		E7F93A151F8EC518006FF025 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				E7CBD1751F8C41B5007E6451 /* TicTacToeTests */,
 				E7CBD1801F8C41B5007E6451 /* TicTacToeUITests */,
 				E7CBD15A1F8C41B4007E6451 /* Products */,
+				E7F93A151F8EC518006FF025 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -281,6 +284,7 @@
 			files = (
 				E7CBD1641F8C41B4007E6451 /* ViewController.m in Sources */,
 				E7CBD1611F8C41B4007E6451 /* AppDelegate.m in Sources */,
+				E7F93A161F8EC518006FF025 /* README.md in Sources */,
 				E7CBD1941F8D9F7B007E6451 /* SettingsView.m in Sources */,
 				E7CBD15E1F8C41B4007E6451 /* main.m in Sources */,
 			);
@@ -518,6 +522,7 @@
 				E7CBD1881F8C41B5007E6451 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E7CBD1891F8C41B5007E6451 /* Build configuration list for PBXNativeTarget "TicTacToeTests" */ = {
 			isa = XCConfigurationList;
@@ -526,6 +531,7 @@
 				E7CBD18B1F8C41B5007E6451 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E7CBD18C1F8C41B5007E6451 /* Build configuration list for PBXNativeTarget "TicTacToeUITests" */ = {
 			isa = XCConfigurationList;
@@ -534,6 +540,7 @@
 				E7CBD18E1F8C41B5007E6451 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
