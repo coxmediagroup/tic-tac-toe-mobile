@@ -15,7 +15,6 @@
 		E7CBD16C1F8C41B4007E6451 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7CBD16A1F8C41B4007E6451 /* LaunchScreen.storyboard */; };
 		E7CBD1771F8C41B5007E6451 /* TicTacToeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CBD1761F8C41B5007E6451 /* TicTacToeTests.m */; };
 		E7CBD1821F8C41B5007E6451 /* TicTacToeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CBD1811F8C41B5007E6451 /* TicTacToeUITests.m */; };
-		E7CBD1901F8C4761007E6451 /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CBD18F1F8C4761007E6451 /* Board.m */; };
 		E7CBD1941F8D9F7B007E6451 /* SettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CBD1931F8D9F7B007E6451 /* SettingsView.m */; };
 /* End PBXBuildFile section */
 
@@ -53,8 +52,6 @@
 		E7CBD17D1F8C41B5007E6451 /* TicTacToeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TicTacToeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7CBD1811F8C41B5007E6451 /* TicTacToeUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TicTacToeUITests.m; sourceTree = "<group>"; };
 		E7CBD1831F8C41B5007E6451 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E7CBD18F1F8C4761007E6451 /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
-		E7CBD1911F8C4773007E6451 /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
 		E7CBD1921F8D9F5F007E6451 /* SettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsView.h; sourceTree = "<group>"; };
 		E7CBD1931F8D9F7B007E6451 /* SettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,8 +106,6 @@
 			children = (
 				E7CBD15F1F8C41B4007E6451 /* AppDelegate.h */,
 				E7CBD1601F8C41B4007E6451 /* AppDelegate.m */,
-				E7CBD1911F8C4773007E6451 /* Board.h */,
-				E7CBD18F1F8C4761007E6451 /* Board.m */,
 				E7CBD1921F8D9F5F007E6451 /* SettingsView.h */,
 				E7CBD1931F8D9F7B007E6451 /* SettingsView.m */,
 				E7CBD1621F8C41B4007E6451 /* ViewController.h */,
@@ -286,7 +281,6 @@
 				E7CBD1641F8C41B4007E6451 /* ViewController.m in Sources */,
 				E7CBD1611F8C41B4007E6451 /* AppDelegate.m in Sources */,
 				E7CBD1941F8D9F7B007E6451 /* SettingsView.m in Sources */,
-				E7CBD1901F8C4761007E6451 /* Board.m in Sources */,
 				E7CBD15E1F8C41B4007E6451 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

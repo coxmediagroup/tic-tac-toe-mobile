@@ -36,7 +36,7 @@
     self.humanColor = [UIColor colorWithRed:200.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:1.0];
     self.aiColor = [UIColor blackColor];
     self.playerTurn = YES;
-    self.gameState = 0; // Not Active
+    self.gameState = 1; // Active
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(startGame)
@@ -50,6 +50,7 @@
 
 - (void)startGame
 {
+    self.playerTurn = YES;
     self.gameState = 1; // Active
     self.humanPlayer = self.settings.letterSelection;
     if ([self.humanPlayer isEqualToString:@"X"]) self.aiPlayer = @"O";
@@ -66,7 +67,10 @@
 
 - (void)displaySettings
 {
+    if (self.gameState == 0) return;
+    
     // Initialize the window
+    self.gameState = 0;
     int width = 300;
     int height = 300;
     CGRect frame = CGRectMake([UIScreen mainScreen].bounds.size.width/2-width/2, [UIScreen mainScreen].bounds.size.height+height, width, height);
@@ -174,20 +178,43 @@
     }
     
     // After each user selection, check for a win or tie
+    if ([self winningMove:self.board value:self.humanPlayer]) {
+        NSLog(@"Player won.  Though technically it's not possible against the AI");
+        [self displayEndOfGame:@"You Won!"];
+    }
     
-    // Make AI move (retrieve button and update display value and array) - Delay it by a little so that it doesn't feel so creepy
-    self.playerTurn = NO;
-    double delayInSeconds = .5;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        int bestAIMove = [self findBestMove];
-        UIButton *aiButton = [self.selectionButtonsArray objectAtIndex:bestAIMove];
-        [aiButton setTitleColor:self.aiColor forState:UIControlStateNormal];
-        [aiButton setTitle:self.aiPlayer forState:UIControlStateNormal];
-        [self.board replaceObjectAtIndex:bestAIMove withObject:self.aiPlayer];
-        NSLog(@"Board after move:%@",self.board);
-        self.playerTurn = YES;
-    });
+    else if ([self getEmptySpaces:self.board].count > 0) {
+    
+        // Make AI move (retrieve button and update display value and array) - Delay it by a little so that it doesn't feel so creepy
+        self.playerTurn = NO;
+        double delayInSeconds = .5;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            int bestAIMove = [self findBestMove];
+            UIButton *aiButton = [self.selectionButtonsArray objectAtIndex:bestAIMove];
+            [aiButton setTitleColor:self.aiColor forState:UIControlStateNormal];
+            [aiButton setTitle:self.aiPlayer forState:UIControlStateNormal];
+            [self.board replaceObjectAtIndex:bestAIMove withObject:self.aiPlayer];
+            NSLog(@"Board after move:%@",self.board);
+            
+            if ([self winningMove:self.board value:self.aiPlayer]) {
+                NSLog(@"AI won!");
+                [self displayEndOfGame:@"You Lost!"];
+            }
+            else {
+                self.playerTurn = YES;
+            }
+        });
+    }
+    else {
+        NSLog(@"It's a tie");
+        [self displayEndOfGame:@"It's a tie!"];
+    }
+}
+
+- (void)displayEndOfGame:(NSString *)str
+{
+    
 }
 
 - (int)findBestMove
@@ -221,17 +248,17 @@
     // First, retrieve all empty spaces
     NSArray *emptySpaces = [self getEmptySpaces:board];
     
-    // If no empty spaces, there are no moves left and game is over (it is a draw)
-    if (emptySpaces.count == 0) {
-        return score = 0;
-    }
     // See if it is a winning move
-    else if ([self winningMove:board value:self.aiPlayer]) {
+    if ([self winningMove:board value:self.aiPlayer]) {
         return score = 100;
     }
     // See if it is a losing move
     else if ([self winningMove:board value:self.humanPlayer]) {
         return score = -100;
+    }
+    // If no empty spaces, there are no moves left and game is over (it is a draw)
+    else if (emptySpaces.count == 0) {
+        return score = 0;
     }
     
     // Alternate player turns
