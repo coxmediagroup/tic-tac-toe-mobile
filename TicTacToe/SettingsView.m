@@ -24,12 +24,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.frame = frame;
-        /*
-        self.backgroundColor = [UIColor colorWithRed:220.0/255.0 green:220.0/255.0 blue:220.0/255.0 alpha:1.0];
-        self.layer.cornerRadius = 10;
-        self.layer.borderWidth = 2;
-        self.layer.borderColor = [UIColor colorWithRed:50.0/255.0 green:50.0/255.0 blue:50.0/255.0 alpha:1.0].CGColor;
-         */
         
         // Add background image
         UIImage *boardBackgroundImage = [UIImage imageNamed:@"settingsBackground"];
