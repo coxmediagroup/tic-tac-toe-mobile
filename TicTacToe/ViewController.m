@@ -15,12 +15,16 @@
 @property (assign, nonatomic) int gameState;
 @property (strong, nonatomic) NSString *humanPlayer;
 @property (strong, nonatomic) NSString *aiPlayer;
-@property (strong, nonatomic) NSString *currentPlayer;
 @property (strong, nonatomic) NSMutableArray *board;
 @property (assign, nonatomic) int bestScore;
 @property (assign, nonatomic) int bestMove;
 @property (strong, nonatomic) SettingsView *settings;
 @property (strong, nonatomic) NSMutableArray *selectionButtonsArray;
+@property (strong, nonatomic) UIButton *repeatButton;
+@property (strong, nonatomic) UIButton *backButton;
+@property (strong, nonatomic) UIColor *humanColor;
+@property (strong, nonatomic) UIColor *aiColor;
+@property (assign, nonatomic) BOOL playerTurn;
 
 @end
 
@@ -29,6 +33,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.selectionButtonsArray = [[NSMutableArray alloc] init];
+    self.humanColor = [UIColor colorWithRed:200.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:1.0];
+    self.aiColor = [UIColor blackColor];
+    self.playerTurn = YES;
+    self.gameState = 0; // Not Active
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(startGame)
@@ -38,23 +46,22 @@
     [self preparePlayBoard];
     
     [self displaySettings];
-    /*
-    self.currentPlayer = @"X";
-
-    self.aiPlayer = @"O";
-    self.humanPlayer = @"O";
-    self.board = [[NSMutableArray alloc] initWithObjects:@"X",@"X",@"O",@"O",@"O",@"X",@"X",@"7",@"8",nil];
-    self.bestScore = -1;
-    self.bestMove = -1;
-    
-    self.bestMove = [self findBestMove];
-    NSLog(@"Best Move:%d",self.bestMove);
-     */
 }
 
 - (void)startGame
 {
+    self.gameState = 1; // Active
+    self.humanPlayer = self.settings.letterSelection;
+    if ([self.humanPlayer isEqualToString:@"X"]) self.aiPlayer = @"O";
+    else self.aiPlayer = @"X";
+    
     // Display user letter selections at top
+    self.board = [[NSMutableArray alloc] initWithObjects:@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",nil];
+    
+    // Reset board values
+    for (UIButton *button in self.selectionButtonsArray) {
+        [button setTitle:@"" forState:UIControlStateNormal];
+    }
 }
 
 - (void)displaySettings
@@ -96,9 +103,38 @@
     [self.view addSubview:imageView];
 
     // Add play buttons
+    float x = [UIScreen mainScreen].bounds.size.width/2 - 130;
+    float y = [UIScreen mainScreen].bounds.size.height/2 - 115;
     for (int i=0; i<9; i++) {
-        [self addButton:self.selectionButtonsArray selector:@selector(selectCategoryButton:) x:100 y:100 title:@"X" tag:i];
+        if ((i==3) || (i==6)) {
+            x = [UIScreen mainScreen].bounds.size.width/2 - 130;
+            y += 90;
+        }
+        [self addButton:self.selectionButtonsArray selector:@selector(playerSelection:) x:x y:y title:@"" tag:i];
+        x += 90;
     }
+    
+    // Add control buttons
+    
+    // Add Back button
+    self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.backButton addTarget:self action:@selector(displaySettings) forControlEvents:UIControlEventTouchUpInside];
+    self.backButton.titleLabel.font = [UIFont fontWithName:@"Arial" size:40];
+    self.backButton.frame = CGRectMake(20, [UIScreen mainScreen].bounds.size.height-100, 80, 80);
+    [self.view addSubview:self.backButton];
+
+    UIImage *backButtonImage = [UIImage imageNamed:@"backButton"];
+    [self.backButton setImage:backButtonImage forState:UIControlStateNormal];
+    
+    // Add Repeat button
+    self.repeatButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.repeatButton addTarget:self action:@selector(startGame) forControlEvents:UIControlEventTouchUpInside];
+    self.repeatButton.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-110, [UIScreen mainScreen].bounds.size.height-100, 80, 80);
+    [self.view addSubview:self.repeatButton];
+    
+    UIImage *repeatButtonImage = [UIImage imageNamed:@"repeatButton"];
+    [self.repeatButton setImage:repeatButtonImage forState:UIControlStateNormal];
+
 }
 
 - (void)addButton:(NSMutableArray *)buttonArray
@@ -111,16 +147,52 @@
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
     [button setTitle:title forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont fontWithName:@"Arial-BoldMT" size:16];
-    button.frame = CGRectMake(x, y, 50.0, 50.0);
-    [button setBackgroundColor:[UIColor darkGrayColor]];
+    button.titleLabel.font = [UIFont fontWithName:@"Arial-BoldMT" size:92];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    button.frame = CGRectMake(x, y, 80.0, 80.0);
+//    [button setBackgroundColor:[UIColor darkGrayColor]];
     [self.view addSubview:button];
     [buttonArray addObject:button];
     button.tag = tag;
 }
 
+- (void)playerSelection:(id)sender
+{
+    UIButton *button = (UIButton *)sender;
+    if (!self.playerTurn) return;
+    
+    // First, check whether it is eligible
+    BOOL eligible = [self elegibleMove:(int)button.tag];
+    if (eligible) {
+        [button setTitleColor:self.humanColor forState:UIControlStateNormal];
+        [button setTitle:self.humanPlayer forState:UIControlStateNormal];
+        [self.board replaceObjectAtIndex:button.tag withObject:self.humanPlayer];
+    }
+    else {
+        NSLog(@"Not eligible");
+        return;
+    }
+    
+    // After each user selection, check for a win or tie
+    
+    // Make AI move (retrieve button and update display value and array) - Delay it by a little so that it doesn't feel so creepy
+    self.playerTurn = NO;
+    double delayInSeconds = .5;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        int bestAIMove = [self findBestMove];
+        UIButton *aiButton = [self.selectionButtonsArray objectAtIndex:bestAIMove];
+        [aiButton setTitleColor:self.aiColor forState:UIControlStateNormal];
+        [aiButton setTitle:self.aiPlayer forState:UIControlStateNormal];
+        [self.board replaceObjectAtIndex:bestAIMove withObject:self.aiPlayer];
+        NSLog(@"Board after move:%@",self.board);
+        self.playerTurn = YES;
+    });
+}
+
 - (int)findBestMove
 {
+    int bestMove = -1;
     int bestScore = -10000;
     NSArray *emptySpaces = [self getEmptySpaces:self.board];
     for (int i=0; i<emptySpaces.count; i++) {
@@ -129,19 +201,15 @@
         
         int score = [self miniMax:self.board maximizingPlayer:NO];
         if (score > bestScore) {
-            self.bestMove = (int)index.integerValue;
+            bestMove = (int)index.integerValue;
             bestScore = score;
         }
         
         // Undo move
         self.board[index.integerValue] = [NSString stringWithFormat:@"%ld",(long)index.integerValue];
     }
-    
-    //    int score = [self miniMax:self.board currentPlayer:self.aiPlayer];
-    
     NSLog(@"Board before move:%@",self.board);
-    //    [self applyMove:self.bestMove currentPlayer:self.aiPlayer];
-    return self.bestMove;
+    return bestMove;
 }
 
 - (int)miniMax:(NSMutableArray *)board maximizingPlayer:(BOOL)maximizingPlayer
@@ -203,6 +271,15 @@
     }
 
     return score;
+}
+
+- (BOOL)elegibleMove:(int)move
+{
+    NSString *moveLocation = [self.board objectAtIndex:move];
+    if ((![moveLocation isEqualToString:@"X"]) && (![moveLocation isEqualToString:@"O"])) {
+        return YES;
+    }
+    return NO;
 }
 
 - (NSArray *)getEmptySpaces:(NSArray *)board

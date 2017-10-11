@@ -90,7 +90,7 @@
     letterLabel.textColor = [UIColor colorWithRed:200.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:1.0];
     letterLabel.text = @"First Move";
     letterLabel.font = [UIFont fontWithName:@"Arial-BoldMT" size:20];
-    letterLabel.frame = CGRectMake(self.frame.size.width/2-100, 25, 200, 20);
+    letterLabel.frame = CGRectMake(self.frame.size.width/2-100, 35, 200, 20);
     [self addSubview:letterLabel];
 
 }

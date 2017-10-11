@@ -6,12 +6,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "settingsBackground-hd.png",
+      "filename" : "settingsBackground@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "settingsBackground-hd-1.png",
+      "filename" : "settingsBackground@2x-1.png",
       "scale" : "3x"
     }
   ],
