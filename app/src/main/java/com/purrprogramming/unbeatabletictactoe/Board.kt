@@ -5,6 +5,9 @@ import com.purrprogramming.unbeatabletictactoe.util.TwoDimensionalArray
 /**
  *
  * Created by Lance Gleason on 10/19/17 of Polyglot Programming LLC.
+ *
+ * Board data class with a few helper methods.
+ *
  * Web: http://www.polygotprogramminginc.com
  * Twitter: @lgleasain
  * Github: @lgleasain
@@ -24,6 +27,10 @@ data class Board(var leftTop: String = "#",
 
   val cells = TwoDimensionalArray<BoardElement?>(NUM_ROWS, NUM_COLUMNS) { null }
 
+  /**
+   * syncs the character representations of the element with the cell array used
+   * for move calculation.
+   */
   fun refreshCells() {
     cells[0][0] = BoardElement(0, 0, getBoardElementType(leftTop))
     cells[0][1] = BoardElement(0, 1, getBoardElementType(centerTop))
@@ -44,6 +51,9 @@ data class Board(var leftTop: String = "#",
     }
   }
 
+  /**
+   * takes a row and column number and sets the appropriate method on the board.
+   */
   fun setElementFromCell(row: Int, column: Int, element: BoardElementType) {
     val elementString = element.toString()
     when {

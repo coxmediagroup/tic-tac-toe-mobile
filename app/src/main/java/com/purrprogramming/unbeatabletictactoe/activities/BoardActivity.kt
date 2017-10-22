@@ -15,6 +15,10 @@ import com.purrprogramming.unbeatabletictactoe.databinding.ActivityBoardBinding
 import com.purrprogramming.unbeatabletictactoe.BoardElementType
 import com.purrprogramming.unbeatabletictactoe.GameState
 
+/**
+ * This is the main activity for the game play.
+ */
+
 class BoardActivity : AppCompatActivity() {
 
   private lateinit var binding: ActivityBoardBinding

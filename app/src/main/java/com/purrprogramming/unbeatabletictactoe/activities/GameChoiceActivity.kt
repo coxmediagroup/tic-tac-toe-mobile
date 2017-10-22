@@ -8,6 +8,9 @@ import com.purrprogramming.unbeatabletictactoe.R
 import com.purrprogramming.unbeatabletictactoe.databinding.ActivityGameChoiceBinding
 import com.purrprogramming.unbeatabletictactoe.BoardElementType
 
+/**
+ * This activity is used for selecting which side the player wants to choose.
+ */
 class GameChoiceActivity : AppCompatActivity() {
 
   lateinit var binding: ActivityGameChoiceBinding

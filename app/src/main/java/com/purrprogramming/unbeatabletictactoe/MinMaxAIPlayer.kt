@@ -3,6 +3,9 @@ package com.purrprogramming.unbeatabletictactoe
 /**
  *
  * Created by Lance Gleason on 10/20/17 of Polyglot Programming LLC.
+ *
+ * The main AI engine for the computer.
+ *
  * Web: http://www.polygotprogramminginc.com
  * Twitter: @lgleasain
  * Github: @lgleasain
@@ -32,11 +35,17 @@ class MinMaxAIPlayer(board: Board) {
     }
   }
 
+  /**
+   * move kicks off the engine and begins the computations.
+   */
   fun move(): Array<Int>? {
     val result = minimax(7, myBoardElementType)
     return arrayOf(result[1], result[2])
   }
 
+  /**
+   * The main recursive minmax method.
+   */
   fun minimax(depth: Int, player: BoardElementType): Array<Int> {
     val nextMoves: MutableList<BoardElement> = generateMoves()
 
@@ -75,6 +84,9 @@ class MinMaxAIPlayer(board: Board) {
     return arrayOf(bestScore, bestRow, bestCol)
   }
 
+  /**
+   * generates possible moves for the board at the current state.
+   */
   fun generateMoves(): MutableList<BoardElement> {
     val nextMoves: MutableList<BoardElement> = mutableListOf()
 
@@ -113,6 +125,9 @@ class MinMaxAIPlayer(board: Board) {
     return false
   }
 
+  /**
+   * evaluates the potential scores.
+   */
   fun evaluate(): Int {
     var score = 0
     score += evaluateLine(0, 0, 0, 1, 0, 2)  // row 0
@@ -126,6 +141,9 @@ class MinMaxAIPlayer(board: Board) {
     return score
   }
 
+  /**
+   * score the individual line.
+   */
   fun evaluateLine(row1: Int, col1: Int, row2: Int, col2: Int, row3: Int, col3: Int): Int {
     var score = 0
 

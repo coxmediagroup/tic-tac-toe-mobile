@@ -7,6 +7,9 @@ import com.purrprogramming.unbeatabletictactoe.util.SingleLiveEvent
 /**
  *
  * Created by Lance Gleason on 10/20/17 of Polyglot Programming LLC.
+ *
+ * ViewModel to glue together the model and view with the main functionality of the app.
+ *
  * Web: http://www.polygotprogramminginc.com
  * Twitter: @lgleasain
  * Github: @lgleasain
@@ -29,6 +32,9 @@ class BoardViewModel(val board: Board = Board()) : BaseObservable() {
 
   var currentGameState = GameState.PLAYING
 
+  /**
+   * bound the the onclick event of all cells on the board. This kicks everything else off.
+   */
   fun selectSquare(view: View) {
     when {
       view.id == R.id.squareTopLeft -> board.leftTop = getBoardCharacterToSet(board.leftTop)
@@ -44,14 +50,18 @@ class BoardViewModel(val board: Board = Board()) : BaseObservable() {
 
     notifyChange()
 
-    if (updateGame(playerBoardElementType)) {
+    if (isGameOver(playerBoardElementType)) {
       val move = minMaxAiPlayer.move()
       board.setElementFromCell(move!![0], move[1], computerBoardElementType)
       notifyChange()
-      updateGame(computerBoardElementType)
+      isGameOver(computerBoardElementType)
     }
   }
 
+  /**
+   * helper method to either return the current players value or the the current value of the
+   * square on a click.
+   */
   fun getBoardCharacterToSet(currentValue: String): String {
     if (currentValue.equals("#")) {
       return playerBoardCharacter
@@ -60,6 +70,9 @@ class BoardViewModel(val board: Board = Board()) : BaseObservable() {
     }
   }
 
+  /**
+   * used to select which side the player will be using when starting the game.
+   */
   fun selectPlayer(playerBoardElementType: BoardElementType) {
     this.playerBoardElementType = playerBoardElementType
     minMaxAiPlayer.setBoardElementType(playerBoardElementType)
@@ -73,7 +86,10 @@ class BoardViewModel(val board: Board = Board()) : BaseObservable() {
     }
   }
 
-  fun updateGame(player: BoardElementType): Boolean {
+  /**
+   * determines if the game has been won or is a draw.
+   */
+  fun isGameOver(player: BoardElementType): Boolean {
     board.refreshCells()
     if (hasWon(player)) {
       currentGameState = when (player) {
