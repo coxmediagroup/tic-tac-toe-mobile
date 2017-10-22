@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="boardViewModel"
+            type="com.purrprogramming.unbeatabletictactoe.BoardViewModel" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.purrprogramming.unbeatabletictactoe.activities.BoardActivity">
+
+        <TextView
+            android:id="@+id/squareTopLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            android:text="@{boardViewModel.board.leftTop}"
+            app:layout_constraintBottom_toTopOf="@id/squareMidLeft"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/squareTopCenter"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/squareTopCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            android:text="@{boardViewModel.board.centerTop}"
+            app:layout_constraintBottom_toTopOf="@id/squareMidCenter"
+            app:layout_constraintLeft_toRightOf="@id/squareTopLeft"
+            app:layout_constraintRight_toLeftOf="@id/squareTopRight"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/squareTopRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            android:text="@{boardViewModel.board.rightTop}"
+            app:layout_constraintBottom_toTopOf="@id/squareMidRight"
+            app:layout_constraintLeft_toRightOf="@id/squareTopCenter"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/squareMidLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            android:text="@{boardViewModel.board.leftMiddle}"
+            app:layout_constraintBottom_toTopOf="@id/squareBottomLeft"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/squareMidCenter"
+            app:layout_constraintTop_toBottomOf="@id/squareTopLeft" />
+
+        <TextView
+            android:id="@+id/squareMidCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            android:text="@{boardViewModel.board.centerMiddle}"
+            app:layout_constraintBottom_toTopOf="@id/squareBottomCenter"
+            app:layout_constraintLeft_toRightOf="@id/squareMidLeft"
+            app:layout_constraintRight_toLeftOf="@id/squareMidRight"
+            app:layout_constraintTop_toBottomOf="@id/squareTopCenter" />
+
+        <TextView
+            android:id="@+id/squareMidRight"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            android:text="@{boardViewModel.board.rightMiddle}"
+            app:layout_constraintBottom_toTopOf="@id/squareBottomRight"
+            app:layout_constraintLeft_toRightOf="@id/squareMidCenter"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/squareTopRight" />
+
+        <TextView
+            android:id="@+id/squareBottomLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            android:text="@{boardViewModel.board.leftBottom}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/squareBottomCenter"
+            app:layout_constraintTop_toBottomOf="@id/squareMidLeft" />
+
+        <TextView
+            android:id="@+id/squareBottomCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            android:text="@{boardViewModel.board.centerBottom}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/squareBottomLeft"
+            app:layout_constraintRight_toLeftOf="@id/squareBottomRight"
+            app:layout_constraintTop_toBottomOf="@id/squareMidCenter" />
+
+        <TextView
+            android:id="@+id/squareBottomRight"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            android:text="@{boardViewModel.board.rightBottom}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/squareBottomCenter"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/squareMidRight" />
+    </android.support.constraint.ConstraintLayout>
+</layout>
