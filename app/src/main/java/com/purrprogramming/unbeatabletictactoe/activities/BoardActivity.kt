@@ -56,12 +56,12 @@ class BoardActivity : AppCompatActivity() {
           Snackbar.make(binding.root, "It's a Draw!", Snackbar.LENGTH_LONG).show()
         }
         GameState.X_WON -> {
-          result = "Cross has won!, play again?"
+          result = "X has won!, play again?"
           emoji = 0x1F60E
           Snackbar.make(binding.root, "cross has won!", Snackbar.LENGTH_LONG).show()
         }
         GameState.O_WON -> {
-          result = "Nought has won!, play again?"
+          result = "O has won!, play again?"
           emoji = 0x1F60E
           Snackbar.make(binding.root, "nought has won!", Snackbar.LENGTH_LONG).show()
         }

@@ -28,8 +28,8 @@ class MinMaxAIPlayer(board: Board) {
   }
 
   fun setBoardElementType(boardElementType: BoardElementType) {
-    myBoardElementType = boardElementType
-    oppBoardElementType = when (myBoardElementType) {
+    oppBoardElementType = boardElementType
+    myBoardElementType = when (oppBoardElementType) {
       BoardElementType.X -> BoardElementType.O
       else -> BoardElementType.X
     }

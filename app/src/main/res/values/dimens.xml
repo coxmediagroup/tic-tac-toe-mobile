@@ -1,4 +1,4 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="emoji_size">44sp</dimen>
+    <dimen name="emoji_size">34sp</dimen>
 </resources>

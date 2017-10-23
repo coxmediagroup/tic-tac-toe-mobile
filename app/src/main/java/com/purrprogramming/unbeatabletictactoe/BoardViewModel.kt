@@ -37,15 +37,15 @@ class BoardViewModel(val board: Board = Board()) : BaseObservable() {
    */
   fun selectSquare(view: View) {
     when {
-      view.id == R.id.squareTopLeft -> board.leftTop = getBoardCharacterToSet(board.leftTop)
-      view.id == R.id.squareTopCenter -> board.centerTop = getBoardCharacterToSet(board.centerTop)
-      view.id == R.id.squareTopRight -> board.rightTop = getBoardCharacterToSet(board.rightTop)
-      view.id == R.id.squareMidLeft -> board.leftMiddle = getBoardCharacterToSet(board.leftMiddle)
-      view.id == R.id.squareMidCenter -> board.centerMiddle = getBoardCharacterToSet(board.centerMiddle)
-      view.id == R.id.squareMidRight -> board.rightMiddle = getBoardCharacterToSet(board.rightMiddle)
-      view.id == R.id.squareBottomLeft -> board.leftBottom = getBoardCharacterToSet(board.leftBottom)
-      view.id == R.id.squareBottomCenter -> board.centerBottom = getBoardCharacterToSet(board.centerBottom)
-      view.id == R.id.squareBottomRight -> board.rightBottom = getBoardCharacterToSet(board.rightBottom)
+      view.id == R.id.squareTopLeft -> board.leftTop = getBoardElementToSet(board.leftTop)
+      view.id == R.id.squareTopCenter -> board.centerTop = getBoardElementToSet(board.centerTop)
+      view.id == R.id.squareTopRight -> board.rightTop = getBoardElementToSet(board.rightTop)
+      view.id == R.id.squareMidLeft -> board.leftMiddle = getBoardElementToSet(board.leftMiddle)
+      view.id == R.id.squareMidCenter -> board.centerMiddle = getBoardElementToSet(board.centerMiddle)
+      view.id == R.id.squareMidRight -> board.rightMiddle = getBoardElementToSet(board.rightMiddle)
+      view.id == R.id.squareBottomLeft -> board.leftBottom = getBoardElementToSet(board.leftBottom)
+      view.id == R.id.squareBottomCenter -> board.centerBottom = getBoardElementToSet(board.centerBottom)
+      view.id == R.id.squareBottomRight -> board.rightBottom = getBoardElementToSet(board.rightBottom)
     }
 
     notifyChange()
@@ -62,9 +62,9 @@ class BoardViewModel(val board: Board = Board()) : BaseObservable() {
    * helper method to either return the current players value or the the current value of the
    * square on a click.
    */
-  fun getBoardCharacterToSet(currentValue: String): String {
-    if (currentValue.equals("#")) {
-      return playerBoardCharacter
+  fun getBoardElementToSet(currentValue: BoardElementType): BoardElementType {
+    if (currentValue == BoardElementType.EMPTY) {
+      return playerBoardElementType
     } else {
       return currentValue
     }
