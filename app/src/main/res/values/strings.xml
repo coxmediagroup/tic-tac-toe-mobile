@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Unbeatable Tic Tac Toe</string>
+    <string name="title_activity_game_choice">GameChoiceActivity</string>
+    <string name="game_selection_text">Choose X or O to begin</string>
+    <string name="game_selection_explanation">You will go first</string>
+    <string name="thinking">Thinking</string>
+    <string name="X">X</string>
+    <string name="O">O</string>
+</resources>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="boardViewModel"
+            type="com.purrprogramming.unbeatabletictactoe.BoardViewModel" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.purrprogramming.unbeatabletictactoe.activities.BoardActivity">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="46dp"
+            android:layout_marginStart="46dp"
+            android:background="#D8D8D8"
+            app:layout_constraintBottom_toTopOf="@id/squareMidCenter"
+            app:layout_constraintTop_toBottomOf="@id/squareTopCenter" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="46dp"
+            android:layout_marginStart="46dp"
+            android:background="#D8D8D8"
+            app:layout_constraintBottom_toTopOf="@id/squareBottomCenter"
+            app:layout_constraintTop_toBottomOf="@id/squareMidCenter" />
+
+        <View
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_marginBottom="56dp"
+            android:layout_marginTop="56dp"
+            android:background="#D8D8D8"
+            app:layout_constraintLeft_toRightOf="@id/squareMidLeft"
+            app:layout_constraintRight_toLeftOf="@id/squareMidCenter" />
+
+        <View
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_marginBottom="56dp"
+            android:layout_marginTop="56dp"
+            android:background="#D8D8D8"
+            app:layout_constraintLeft_toRightOf="@id/squareMidCenter"
+            app:layout_constraintRight_toLeftOf="@id/squareMidRight" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/squareTopLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            imageResource="@{boardViewModel.board.leftTop}"
+            android:src="@drawable/ic_empty"
+            app:layout_constraintBottom_toTopOf="@id/squareMidLeft"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/squareTopCenter"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/squareTopCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            imageResource="@{boardViewModel.board.centerTop}"
+            android:src="@drawable/ic_empty"
+            app:layout_constraintBottom_toTopOf="@id/squareMidCenter"
+            app:layout_constraintLeft_toRightOf="@id/squareTopLeft"
+            app:layout_constraintRight_toLeftOf="@id/squareTopRight"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/squareTopRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            imageResource="@{boardViewModel.board.rightTop}"
+            android:src="@drawable/ic_empty"
+            app:layout_constraintBottom_toTopOf="@id/squareMidRight"
+            app:layout_constraintLeft_toRightOf="@id/squareTopCenter"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/squareMidLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            imageResource="@{boardViewModel.board.leftMiddle}"
+            android:src="@drawable/ic_empty"
+            app:layout_constraintBottom_toTopOf="@id/squareBottomLeft"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/squareMidCenter"
+            app:layout_constraintTop_toBottomOf="@id/squareTopLeft" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/squareMidCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            imageResource="@{boardViewModel.board.centerMiddle}"
+            android:src="@drawable/ic_empty"
+            app:layout_constraintBottom_toTopOf="@id/squareBottomCenter"
+            app:layout_constraintLeft_toRightOf="@id/squareMidLeft"
+            app:layout_constraintRight_toLeftOf="@id/squareMidRight"
+            app:layout_constraintTop_toBottomOf="@id/squareTopCenter" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/squareMidRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            imageResource="@{boardViewModel.board.rightMiddle}"
+            android:src="@drawable/ic_empty"
+            app:layout_constraintBottom_toTopOf="@id/squareBottomRight"
+            app:layout_constraintLeft_toRightOf="@id/squareMidCenter"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/squareTopRight" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/squareBottomLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            imageResource="@{boardViewModel.board.leftBottom}"
+            android:src="@drawable/ic_empty"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/squareBottomCenter"
+            app:layout_constraintTop_toBottomOf="@id/squareMidLeft" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/squareBottomCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            imageResource="@{boardViewModel.board.centerBottom}"
+            android:src="@drawable/ic_empty"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/squareBottomLeft"
+            app:layout_constraintRight_toLeftOf="@id/squareBottomRight"
+            app:layout_constraintTop_toBottomOf="@id/squareMidCenter" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/squareBottomRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> boardViewModel.selectSquare(view)}"
+            imageResource="@{boardViewModel.board.rightBottom}"
+            android:src="@drawable/ic_empty"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/squareBottomCenter"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/squareMidRight" />
+    </android.support.constraint.ConstraintLayout>
+</layout>
