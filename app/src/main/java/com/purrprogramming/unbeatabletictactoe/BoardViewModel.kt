@@ -1,8 +1,10 @@
 package com.purrprogramming.unbeatabletictactoe
 
 import android.databinding.BaseObservable
+import android.os.Looper
 import android.view.View
 import com.purrprogramming.unbeatabletictactoe.util.SingleLiveEvent
+import java.util.logging.Handler
 
 /**
  *
@@ -27,6 +29,7 @@ class BoardViewModel(val board: Board = Board()) : BaseObservable() {
       0b100010001, 0b001010100)               // diagonals
 
   val gameOverEvent = SingleLiveEvent<GameState>()
+  val thinkingEvent = SingleLiveEvent<Boolean>()
 
   val minMaxAiPlayer = MinMaxAIPlayer(board)
 
@@ -49,13 +52,22 @@ class BoardViewModel(val board: Board = Board()) : BaseObservable() {
     }
 
     notifyChange()
+    thinkingEvent.value = true
+  }
 
-    if (isGameOver(playerBoardElementType)) {
-      val move = minMaxAiPlayer.move()
-      board.setElementFromCell(move!![0], move[1], computerBoardElementType)
-      notifyChange()
-      isGameOver(computerBoardElementType)
-    }
+  fun evaluateGame() {
+    Runnable {
+
+      if (isGameOver(playerBoardElementType)) {
+
+        val move = minMaxAiPlayer.move()
+        board.setElementFromCell(move!![0], move[1], computerBoardElementType)
+        notifyChange()
+
+        isGameOver(computerBoardElementType)
+        thinkingEvent.value = false
+      }
+    }.run()
   }
 
   /**

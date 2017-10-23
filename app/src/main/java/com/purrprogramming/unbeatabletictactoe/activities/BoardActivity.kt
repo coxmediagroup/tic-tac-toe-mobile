@@ -5,6 +5,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.view.Gravity
@@ -23,10 +24,10 @@ class BoardActivity : AppCompatActivity() {
 
   private lateinit var binding: ActivityBoardBinding
   private val boardViewModel = BoardViewModel()
+  lateinit var thinkingDialog: AlertDialog
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    //setContentView(R.layout.activity_board)
     binding = DataBindingUtil.setContentView(this, R.layout.activity_board)
 
 
@@ -37,10 +38,33 @@ class BoardActivity : AppCompatActivity() {
       2 -> {
         boardViewModel.selectPlayer(BoardElementType.O)
       }
+
     }
 
     binding.boardViewModel = boardViewModel
     observeGameStatus()
+    observeThinking()
+  }
+
+  private fun observeThinking() {
+
+    boardViewModel.thinkingEvent.observe(this@BoardActivity, Observer<Boolean> { thinking ->
+      if (thinking!!) {
+        binding.executePendingBindings()
+        thinkingDialog = AlertDialog.Builder(this).create()
+        val thinkingMsg = TextView(this)
+        thinkingMsg.gravity = Gravity.CENTER_HORIZONTAL
+        thinkingMsg.textSize = resources.getDimension(R.dimen.thinking_size)
+        thinkingMsg.text = getText(R.string.thinking)
+        thinkingDialog?.setView(thinkingMsg)
+        thinkingDialog?.setCancelable(false)
+        thinkingDialog.show()
+        binding.executePendingBindings()
+        Handler().postDelayed({ binding.boardViewModel!!.evaluateGame() }, 500)
+      } else {
+        thinkingDialog.dismiss()
+      }
+    })
   }
 
   private fun observeGameStatus() {
@@ -52,18 +76,17 @@ class BoardActivity : AppCompatActivity() {
       when (gameState) {
         GameState.DRAW -> {
           result = "It's a draw, play again?"
-          emoji = 0x1f644
           Snackbar.make(binding.root, "It's a Draw!", Snackbar.LENGTH_LONG).show()
         }
         GameState.X_WON -> {
           result = "X has won!, play again?"
           emoji = 0x1F60E
-          Snackbar.make(binding.root, "cross has won!", Snackbar.LENGTH_LONG).show()
+          Snackbar.make(binding.root, "x has won!", Snackbar.LENGTH_LONG).show()
         }
         GameState.O_WON -> {
           result = "O has won!, play again?"
           emoji = 0x1F60E
-          Snackbar.make(binding.root, "nought has won!", Snackbar.LENGTH_LONG).show()
+          Snackbar.make(binding.root, "x has won!", Snackbar.LENGTH_LONG).show()
         }
       }
 
